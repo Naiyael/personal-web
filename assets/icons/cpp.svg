@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="C++">
+  <path fill="#1f4fcf" d="M32 4 8 18v28l24 14 24-14V18L32 4Z"/>
+  <path fill="#ffffff" d="M30 45c-8 0-13-5-13-13s5-13 13-13c4 0 8 2 10 4l-4 5c-2-2-4-2-6-2-4 0-7 3-7 6s3 6 7 6c2 0 4-1 6-2l4 5c-2 2-6 4-10 4Z"/>
+  <path fill="#a9d0ff" d="M43 25h4v5h5v4h-5v5h-4v-5h-5v-4h5v-5Zm10 0h4v5h5v4h-5v5h-4v-5h-5v-4h5v-5Z" transform="scale(.72) translate(20 11)"/>
+</svg>
