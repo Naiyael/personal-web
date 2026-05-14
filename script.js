@@ -14,57 +14,7 @@ const musicTitle = document.querySelector("#music-title");
 const musicArtist = document.querySelector("#music-artist");
 const musicProgressBar = document.querySelector("#music-progress-bar");
 
-const posts = [
-  {
-    title: "C++ 调试记录：段错误（Segmentation Fault）排查思路",
-    date: "2026-05-12",
-    updated: "2026-05-12",
-    tags: ["C++", "调试", "置顶"],
-    cover: "linear-gradient(135deg, #1e3c72, #2a5298)",
-    summary: "排查运行时的段错误，从 core dump、GDB 到 AddressSanitizer 的完整流程。",
-    pinned: true,
-  },
-  {
-    title: "Linux 环境下 Hadoop 集群搭建笔记",
-    date: "2026-05-10",
-    updated: "2026-05-11",
-    tags: ["Linux", "Hadoop", "项目"],
-    cover: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-    summary: "从零开始配置三节点 Hadoop 集群，涵盖网络配置、SSH 免密、HDFS 调优。",
-  },
-  {
-    title: "Python 爬虫入门：BeautifulSoup + Requests 实战",
-    date: "2026-05-08",
-    updated: "2026-05-08",
-    tags: ["Python", "项目"],
-    cover: "linear-gradient(135deg, #11998e, #38ef7d)",
-    summary: "用 Python 写一个简单的爬虫抓取静态网页，解析 HTML 并导出为 CSV。",
-  },
-  {
-    title: "算法题解：LeetCode 215 — 数组中的第 K 个最大元素",
-    date: "2026-05-06",
-    updated: "2026-05-07",
-    tags: ["算法", "C++"],
-    cover: "linear-gradient(135deg, #667eea, #764ba2)",
-    summary: "快速选择（Quick Select）和堆排序两种解法的复杂度分析与实现。",
-  },
-  {
-    title: "从零搭建个人博客：GitHub Pages + 自定义域名",
-    date: "2026-05-04",
-    updated: "2026-05-04",
-    tags: ["项目", "随笔"],
-    cover: "linear-gradient(135deg, #f093fb, #f5576c)",
-    summary: "用纯静态 HTML/CSS/JS 搭建博客，绑定自定义域名，集成粒子动画效果。",
-  },
-  {
-    title: "AI 工具实践：本地部署LLM做代码审查",
-    date: "2026-05-01",
-    updated: "2026-05-03",
-    tags: ["AI", "项目", "Python"],
-    cover: "linear-gradient(135deg, #4facfe, #00f2fe)",
-    summary: "使用 Ollama 在本地部署开源模型，结合脚本实现自动代码审查流程。",
-  },
-];
+const posts = [];
 
 const tracks = [
   {
@@ -323,20 +273,30 @@ document.querySelectorAll(".fade-section").forEach((el) => observer.observe(el))
 const disc = document.querySelector(".disc");
 
 async function togglePlay() {
-  if (tracks.length === 0) {
-    return;
-  }
+  if (tracks.length === 0) return;
 
   const track = tracks[currentTrackIndex];
+
   if (!track.src && track.officialUrl) {
     window.open(track.officialUrl, "_blank", "noopener,noreferrer");
     return;
   }
 
+  if (!track.src) return;
+
   if (audioPlayer.paused) {
-    await audioPlayer.play();
-    togglePlayButton.textContent = "暂停";
-    disc.classList.add("spinning");
+    try {
+      if (!audioPlayer.src || audioPlayer.readyState === 0) {
+        audioPlayer.src = track.src;
+        audioPlayer.load();
+      }
+      await audioPlayer.play();
+      togglePlayButton.textContent = "暂停";
+      disc.classList.add("spinning");
+    } catch {
+      togglePlayButton.textContent = "播放";
+      disc.classList.remove("spinning");
+    }
   } else {
     audioPlayer.pause();
     togglePlayButton.textContent = "播放";
@@ -346,12 +306,27 @@ async function togglePlay() {
 
 function playTrack(index) {
   loadTrack(index);
-  if (!tracks[currentTrackIndex].src) {
-    return;
-  }
-  audioPlayer.play();
-  togglePlayButton.textContent = "暂停";
+  if (!tracks[currentTrackIndex].src) return;
+  audioPlayer.play()
+    .then(() => {
+      togglePlayButton.textContent = "暂停";
+      disc.classList.add("spinning");
+    })
+    .catch(() => {
+      togglePlayButton.textContent = "播放";
+      disc.classList.remove("spinning");
+    });
 }
+
+function resetPlayerUI() {
+  togglePlayButton.textContent = "播放";
+  disc.classList.remove("spinning");
+  musicProgressBar.style.width = "0";
+  document.querySelector("#music-current").textContent = "0:00";
+  document.querySelector("#music-duration").textContent = "0:00";
+}
+
+audioPlayer.addEventListener("error", resetPlayerUI);
 
 function handlePointerMove(event) {
   pointer.px = pointer.moved ? pointer.x : event.clientX;
