@@ -14,20 +14,74 @@ const musicTitle = document.querySelector("#music-title");
 const musicArtist = document.querySelector("#music-artist");
 const musicProgressBar = document.querySelector("#music-progress-bar");
 
-const posts = [];
+const posts = [
+  {
+    title: "C++ 调试记录：段错误（Segmentation Fault）排查思路",
+    date: "2026-05-12",
+    updated: "2026-05-12",
+    tags: ["C++", "调试", "置顶"],
+    cover: "linear-gradient(135deg, #1e3c72, #2a5298)",
+    summary: "排查运行时的段错误，从 core dump、GDB 到 AddressSanitizer 的完整流程。",
+    pinned: true,
+  },
+  {
+    title: "Linux 环境下 Hadoop 集群搭建笔记",
+    date: "2026-05-10",
+    updated: "2026-05-11",
+    tags: ["Linux", "Hadoop", "项目"],
+    cover: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+    summary: "从零开始配置三节点 Hadoop 集群，涵盖网络配置、SSH 免密、HDFS 调优。",
+  },
+  {
+    title: "Python 爬虫入门：BeautifulSoup + Requests 实战",
+    date: "2026-05-08",
+    updated: "2026-05-08",
+    tags: ["Python", "项目"],
+    cover: "linear-gradient(135deg, #11998e, #38ef7d)",
+    summary: "用 Python 写一个简单的爬虫抓取静态网页，解析 HTML 并导出为 CSV。",
+  },
+  {
+    title: "算法题解：LeetCode 215 — 数组中的第 K 个最大元素",
+    date: "2026-05-06",
+    updated: "2026-05-07",
+    tags: ["算法", "C++"],
+    cover: "linear-gradient(135deg, #667eea, #764ba2)",
+    summary: "快速选择（Quick Select）和堆排序两种解法的复杂度分析与实现。",
+  },
+  {
+    title: "从零搭建个人博客：GitHub Pages + 自定义域名",
+    date: "2026-05-04",
+    updated: "2026-05-04",
+    tags: ["项目", "随笔"],
+    cover: "linear-gradient(135deg, #f093fb, #f5576c)",
+    summary: "用纯静态 HTML/CSS/JS 搭建博客，绑定自定义域名，集成粒子动画效果。",
+  },
+  {
+    title: "AI 工具实践：本地部署LLM做代码审查",
+    date: "2026-05-01",
+    updated: "2026-05-03",
+    tags: ["AI", "项目", "Python"],
+    cover: "linear-gradient(135deg, #4facfe, #00f2fe)",
+    summary: "使用 Ollama 在本地部署开源模型，结合脚本实现自动代码审查流程。",
+  },
+];
 
 const tracks = [
   {
-    title: "太阳之子",
-    artist: "周杰伦 · 官方平台收听",
-    officialUrl: "https://music.apple.com/us/song/1887230875?l=zh-Hans-CN",
+    title: "晴天",
+    artist: "周杰伦",
+    src: "music/晴天.mp3",
   },
-  // 本地音乐示例：
-  // {
-  //   title: "歌曲名",
-  //   artist: "歌手或备注",
-  //   src: "music/song.mp3",
-  // },
+  {
+    title: "园游会",
+    artist: "周杰伦",
+    src: "music/园游会.mp3",
+  },
+  {
+    title: "最长的电影",
+    artist: "周杰伦",
+    src: "music/最长的电影.mp3",
+  },
 ];
 
 let currentTrackIndex = 0;
@@ -214,13 +268,59 @@ function loadTrack(index) {
   } else {
     audioPlayer.removeAttribute("src");
   }
+  disc.classList.remove("spinning");
   musicTitle.textContent = track.title;
   musicArtist.textContent = track.artist;
+  document.querySelector("#music-current").textContent = "0:00";
+  document.querySelector("#music-duration").textContent = "0:00";
   togglePlayButton.disabled = false;
   togglePlayButton.textContent = track.src ? "播放" : "官方收听";
   prevTrackButton.disabled = tracks.length < 2;
   nextTrackButton.disabled = tracks.length < 2;
 }
+
+/* ===== Dark Mode ===== */
+const themeToggle = document.querySelector("#theme-toggle");
+
+function applyTheme(isDark) {
+  document.body.classList.toggle("dark-mode", isDark);
+  themeToggle.setAttribute("aria-label", isDark ? "切换到浅色模式" : "切换到深色模式");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+
+function initTheme() {
+  const saved = localStorage.getItem("theme");
+  if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    applyTheme(true);
+  }
+}
+
+themeToggle.addEventListener("click", () => {
+  applyTheme(!document.body.classList.contains("dark-mode"));
+});
+
+initTheme();
+
+/* ===== Footer Year ===== */
+document.querySelector("#footer-year").textContent = String(new Date().getFullYear());
+
+/* ===== Scroll Animation ===== */
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.08 },
+);
+
+document.querySelectorAll(".fade-section").forEach((el) => observer.observe(el));
+
+/* ===== Music Player ===== */
+const disc = document.querySelector(".disc");
 
 async function togglePlay() {
   if (tracks.length === 0) {
@@ -236,9 +336,11 @@ async function togglePlay() {
   if (audioPlayer.paused) {
     await audioPlayer.play();
     togglePlayButton.textContent = "暂停";
+    disc.classList.add("spinning");
   } else {
     audioPlayer.pause();
     togglePlayButton.textContent = "播放";
+    disc.classList.remove("spinning");
   }
 }
 
@@ -278,13 +380,31 @@ prevTrackButton.addEventListener("click", () => {
 nextTrackButton.addEventListener("click", () => {
   playTrack(currentTrackIndex + 1);
 });
+function formatTime(seconds) {
+  if (Number.isNaN(seconds) || !Number.isFinite(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+const musicTimeDisplay = document.createElement("div");
+musicTimeDisplay.className = "music-time";
+musicTimeDisplay.innerHTML = '<span id="music-current">0:00</span><span id="music-duration">0:00</span>';
+document.querySelector(".music-info").after(musicTimeDisplay);
+
 audioPlayer.addEventListener("timeupdate", () => {
   const progress = audioPlayer.duration
     ? (audioPlayer.currentTime / audioPlayer.duration) * 100
     : 0;
   musicProgressBar.style.width = `${progress}%`;
+  document.querySelector("#music-current").textContent = formatTime(audioPlayer.currentTime);
+});
+
+audioPlayer.addEventListener("loadedmetadata", () => {
+  document.querySelector("#music-duration").textContent = formatTime(audioPlayer.duration);
 });
 audioPlayer.addEventListener("ended", () => {
+  disc.classList.remove("spinning");
   if (tracks.length > 1) {
     playTrack(currentTrackIndex + 1);
   } else {
