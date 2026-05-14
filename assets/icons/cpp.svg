@@ -1,17 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="C++">
-  <defs>
-    <linearGradient id="cpp-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1A237E"/>
-      <stop offset="100%" stop-color="#0D47A1"/>
-    </linearGradient>
-    <linearGradient id="cpp-shine" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.2)"/>
-      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="url(#cpp-bg)"/>
-  <rect width="64" height="64" rx="14" fill="url(#cpp-shine)"/>
-  <path fill="#ffffff" d="M32 8L12 20v24l20 12 20-12V20L32 8z" opacity="0.08"/>
-  <path fill="#ffffff" d="M30 47c-9 0-15-6-15-15s6-15 15-15c4.5 0 8.5 2 11 5l-4.5 4.5c-1.5-2-3.5-3-6.5-3-4.5 0-7.5 3.5-7.5 8.5s3 8.5 7.5 8.5c3 0 5-1 6.5-3l4.5 4.5c-2.5 3-6.5 5-11 5z"/>
-  <path fill="#82B1FF" d="M44 22h4v4h4v4h-4v4h-4v-4h-4v-4h4v-4zM52 22h4v4h4v4h-4v4h-4v-4h-4v-4h4v-4z" transform="scale(0.8) translate(12,8)"/>
+  <path fill="#1f4fcf" d="M32 4 8 18v28l24 14 24-14V18L32 4Z"/>
+  <path fill="#ffffff" d="M30 45c-8 0-13-5-13-13s5-13 13-13c4 0 8 2 10 4l-4 5c-2-2-4-2-6-2-4 0-7 3-7 6s3 6 7 6c2 0 4-1 6-2l4 5c-2 2-6 4-10 4Z"/>
+  <path fill="#a9d0ff" d="M43 25h4v5h5v4h-5v5h-4v-5h-5v-4h5v-5Zm10 0h4v5h5v4h-5v5h-4v-5h-5v-4h5v-5Z" transform="scale(.72) translate(20 11)"/>
+<<<<<<< Updated upstream
 </svg>
+=======
+</svg>
+>>>>>>> Stashed changes

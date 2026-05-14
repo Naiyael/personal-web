@@ -1,18 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Python">
-  <defs>
-    <linearGradient id="py-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2B5B84"/>
-      <stop offset="100%" stop-color="#1E415E"/>
-    </linearGradient>
-    <linearGradient id="py-shine" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
-      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="url(#py-bg)"/>
-  <rect width="64" height="64" rx="14" fill="url(#py-shine)"/>
-  <path fill="#3776AB" d="M30 8h12c6 0 10 4 10 10v8c0 5.5-3.5 9-9 9H26c-3 0-5 1.5-5 4.5v4.5H16c-4.5 0-7.5-3.5-7.5-8v-7c0-5.5 3.5-9 9-9h22v-3H21v-3c0-3.5 3.5-6 10.5-6Z" opacity="0.15"/>
-  <path fill="#3776AB" d="M31 56H21c-6 0-10-4-10-10v-8c0-5.5 3.5-9 9-9h16c3 0 5-1.5 5-4.5v-4.5h9c4.5 0 7.5 3.5 7.5 8v7c0 5.5-3.5 9-9 9H26v3h16v3c0 3.5-3.5 6-10.5 6Z"/>
-  <path fill="#FFD43B" d="M25.5 12.5c0 1.7-1.3 3-3 3s-3-1.3-3-3 1.3-3 3-3 3 1.3 3 3z" opacity="0.9"/>
-  <path fill="#FFD43B" d="M38.5 47.5c0 1.7-1.3 3-3 3s-3-1.3-3-3 1.3-3 3-3 3 1.3 3 3z" opacity="0.9"/>
+  <path fill="#3776ab" d="M31 6h10c7 0 11 4 11 11v9c0 6-4 10-10 10H28c-3 0-5 2-5 5v5H12c-5 0-8-4-8-9v-8c0-6 4-10 10-10h22v-3H20v-3c0-4 4-7 11-7Z"/>
+  <path fill="#ffd43b" d="M33 58H23c-7 0-11-4-11-11v-9c0-6 4-10 10-10h14c3 0 5-2 5-5v-5h11c5 0 8 4 8 9v8c0 6-4 10-10 10H28v3h16v3c0 4-4 7-11 7Z"/>
+  <circle cx="26" cy="14" r="3" fill="#fff"/>
+  <circle cx="38" cy="50" r="3" fill="#fff"/>
+<<<<<<< Updated upstream
 </svg>
+=======
+</svg>
+>>>>>>> Stashed changes
