@@ -66,7 +66,6 @@ button {
   opacity: 0.55;
 }
 
-.site-header,
 .page-shell,
 .site-footer {
   width: min(1180px, calc(100% - 32px));
@@ -81,6 +80,8 @@ button {
   min-height: 76px;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  padding-inline: max(16px, calc((100vw - 1180px) / 2));
   border-bottom: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(18px);
@@ -690,10 +691,14 @@ h3 {
 }
 
 @media (max-width: 520px) {
-  .site-header,
   .page-shell,
   .site-footer {
     width: min(100% - 24px, 1180px);
+  }
+
+  .site-header {
+    width: 100%;
+    padding-inline: 12px;
   }
 
   h1 {
