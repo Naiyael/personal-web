@@ -7,46 +7,6 @@ const emptyState = document.querySelector("#empty-state");
 const topicButtons = [...document.querySelectorAll(".topic-pill")];
 
 const posts = [
-  {
-    title: "网站说明",
-    date: "2026-05-14",
-    updated: "2026-05-14",
-    summary: "记录个人博客从域名、Cloudflare、GitHub Pages 到页面结构的搭建过程。",
-    tags: ["网站", "Git"],
-    cover:
-      "linear-gradient(135deg, #1b2a4a 0%, #3358ff 48%, #20d6c7 100%)",
-    pinned: true,
-  },
-  {
-    title: "算法训练周记",
-    date: "2026-05-12",
-    updated: "2026-05-12",
-    summary: "把题目按模型拆开复盘，重点记录 DP 状态设计和转移推导。",
-    tags: ["算法", "C++"],
-    cover:
-      "linear-gradient(135deg, #172033 0%, #4b7bff 52%, #92b4ff 100%)",
-    pinned: false,
-  },
-  {
-    title: "AI 学习路线整理",
-    date: "2026-05-09",
-    updated: "2026-05-09",
-    summary: "面向考研和就业，整理基础课、工程项目与模型实践的优先级。",
-    tags: ["AI", "学习"],
-    cover:
-      "linear-gradient(135deg, #19342d 0%, #19c37d 48%, #9dffcf 100%)",
-    pinned: false,
-  },
-  {
-    title: "GitHub Pages 部署笔记",
-    date: "2026-05-08",
-    updated: "2026-05-14",
-    summary: "整理个人站点推送到 GitHub 仓库、开启 Pages、绑定自定义域名的流程。",
-    tags: ["Git", "网站"],
-    cover:
-      "linear-gradient(135deg, #2a2238 0%, #8f5cff 48%, #ffb0c8 100%)",
-    pinned: false,
-  },
 ];
 
 let width = 0;
@@ -83,7 +43,7 @@ function createParticle(x, y, speed = 1) {
     y,
     vx: Math.cos(angle) * velocity,
     vy: Math.sin(angle) * velocity,
-    radius: Math.random() * 2.4 + 1,
+    radius: Math.random() * 1.4 + 0.7,
     life: 1,
     decay: Math.random() * 0.018 + 0.012,
     color: particleColors[Math.floor(Math.random() * particleColors.length)],
@@ -110,7 +70,7 @@ function emitTrail(x, y, px, py) {
     createParticle(
       px + dx * t + (Math.random() - 0.5) * 13,
       py + dy * t + (Math.random() - 0.5) * 13,
-      1.1,
+      0.62,
     );
   }
 }
@@ -159,7 +119,7 @@ function animate() {
       0,
       particle.x,
       particle.y,
-      particle.radius * 6,
+      particle.radius * 4,
     );
     gradient.addColorStop(0, particle.color);
     gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -167,7 +127,7 @@ function animate() {
     ctx.globalAlpha = Math.max(particle.life, 0);
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.radius * 6, 0, Math.PI * 2);
+    ctx.arc(particle.x, particle.y, particle.radius * 4, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -198,6 +158,11 @@ function renderPosts(filter = "all") {
             <div class="tag-list">
               ${post.tags.map((tag) => `<span class="tag"># ${tag}</span>`).join("")}
             </div>
+            ${
+              post.url
+                ? `<a class="read-link" href="${post.url}">阅读全文</a>`
+                : ""
+            }
           </div>
         </article>
       `,
@@ -239,8 +204,8 @@ window.addEventListener("pointerdown", (event) => {
   pointer.active = true;
   pointer.moved = false;
   handlePointerMove(event);
-  for (let i = 0; i < 12; i += 1) {
-    createParticle(event.clientX, event.clientY, 1.25);
+  for (let i = 0; i < 5; i += 1) {
+    createParticle(event.clientX, event.clientY, 0.72);
   }
 });
 
