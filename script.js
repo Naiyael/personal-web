@@ -8,33 +8,14 @@ const topicButtons = [...document.querySelectorAll(".topic-pill")];
 
 const audioPlayer = document.querySelector("#audio-player");
 const togglePlayButton = document.querySelector("#toggle-play");
-const prevTrackButton = document.querySelector("#prev-track");
-const nextTrackButton = document.querySelector("#next-track");
 const musicTitle = document.querySelector("#music-title");
 const musicArtist = document.querySelector("#music-artist");
-const musicProgressBar = document.querySelector("#music-progress-bar");
 
 const posts = [];
 
-const tracks = [
-  {
-    title: "晴天",
-    artist: "周杰伦",
-    src: "music/晴天.mp3",
-  },
-  {
-    title: "园游会",
-    artist: "周杰伦",
-    src: "music/园游会.mp3",
-  },
-  {
-    title: "最长的电影",
-    artist: "周杰伦",
-    src: "music/最长的电影.mp3",
-  },
-];
-
-let currentTrackIndex = 0;
+// 以后想用自己的 mp3 时，把下面这行取消注释，注释掉后面的 src：
+// const BGM_SRC = "music/晴天.mp3";
+const BGM_SRC = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 let width = 0;
 let height = 0;
 let particles = [];
@@ -201,29 +182,13 @@ function renderPosts(filter = "all") {
   emptyState.hidden = visiblePosts.length > 0;
 }
 
-function loadTrack(index) {
-  if (tracks.length === 0) {
-    audioPlayer.removeAttribute("src");
-    togglePlayButton.disabled = true;
-    prevTrackButton.disabled = true;
-    nextTrackButton.disabled = true;
-    musicProgressBar.style.width = "0";
-    return;
+function updatePlayerUI(playing) {
+  togglePlayButton.textContent = playing ? "暂停" : "播放";
+  if (playing) {
+    disc.classList.add("spinning");
+  } else {
+    disc.classList.remove("spinning");
   }
-
-  currentTrackIndex = (index + tracks.length) % tracks.length;
-  const track = tracks[currentTrackIndex];
-  // 不提前设置 audio src，等用户点击播放时再加载
-  // 避免 mp3 文件未就绪时 audio 元素卡死在错误状态
-  disc.classList.remove("spinning");
-  musicTitle.textContent = track.title;
-  musicArtist.textContent = track.artist;
-  document.querySelector("#music-current").textContent = "0:00";
-  document.querySelector("#music-duration").textContent = "0:00";
-  togglePlayButton.disabled = false;
-  togglePlayButton.textContent = track.src ? "播放" : "官方收听";
-  prevTrackButton.disabled = tracks.length < 2;
-  nextTrackButton.disabled = tracks.length < 2;
 }
 
 /* ===== Dark Mode ===== */
@@ -266,63 +231,74 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll(".fade-section").forEach((el) => observer.observe(el));
 
-/* ===== Music Player ===== */
+/* ===== Background Music ===== */
 const disc = document.querySelector(".disc");
+const bgmToggle = document.querySelector("#bgm-toggle");
 
-async function togglePlay() {
-  if (tracks.length === 0) return;
+// 背景音乐源：使用公用的 SoundHelix 演示音乐（免文件，直接可用）
+// 以后你想换成自己的歌，把 mp3 放进 music/ 文件夹，把下面这行改成：
+// const BGM_SRC = "music/你的歌名.mp3";
+const BGM_SRC = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
-  const track = tracks[currentTrackIndex];
+let isBGMReady = false;
 
-  // 外部链接跳转
-  if (!track.src && track.officialUrl) {
-    window.open(track.officialUrl, "_blank", "noopener,noreferrer");
-    return;
-  }
+/** 初次交互时启动背景音乐（浏览器策略要求：必须由用户手势触发） */
+function initBGM() {
+  if (isBGMReady) return;
+  isBGMReady = true;
 
-  if (!track.src) return;
+  musicTitle.textContent = "♫ 背景音乐播放中";
+  musicArtist.textContent = "点击右下角音符按钮可暂停";
 
-  if (audioPlayer.paused) {
-    try {
-      // 每次点击播放都重新设置 src 并加载，确保 audio 处于干净状态
-      audioPlayer.src = track.src;
-      audioPlayer.load();
-      await audioPlayer.play();
-      togglePlayButton.textContent = "暂停";
-      disc.classList.add("spinning");
-    } catch (err) {
-      console.warn("播放失败:", err);
-      togglePlayButton.textContent = "播放";
-      disc.classList.remove("spinning");
-    }
-  } else {
-    audioPlayer.pause();
-    togglePlayButton.textContent = "播放";
-    disc.classList.remove("spinning");
-  }
-}
-
-function playTrack(index) {
-  loadTrack(index);
-  const track = tracks[currentTrackIndex];
-  if (!track.src) return;
-  audioPlayer.src = track.src;
+  audioPlayer.src = BGM_SRC;
   audioPlayer.load();
   audioPlayer.play()
     .then(() => {
-      togglePlayButton.textContent = "暂停";
-      disc.classList.add("spinning");
+      updatePlayerUI(true);
+      bgmToggle.classList.remove("is-muted");
     })
     .catch(() => {
-      togglePlayButton.textContent = "播放";
-      disc.classList.remove("spinning");
+      // 静默失败，用户可手动点播放
     });
 }
 
-/* 加载/播放失败时重置 UI */
+// 监听首次交互（任一点击/触摸触发）
+document.addEventListener("pointerdown", initBGM, { once: true });
+document.addEventListener("touchstart", initBGM, { once: true });
+
+/** 切换播放/暂停 */
+async function togglePlay() {
+  if (!isBGMReady) {
+    initBGM();
+    return;
+  }
+
+  if (audioPlayer.paused) {
+    try {
+      await audioPlayer.play();
+      updatePlayerUI(true);
+      bgmToggle.classList.remove("is-muted");
+    } catch {
+      updatePlayerUI(false);
+      bgmToggle.classList.add("is-muted");
+    }
+  } else {
+    audioPlayer.pause();
+    updatePlayerUI(false);
+    bgmToggle.classList.add("is-muted");
+  }
+}
+
+/** 右下角浮窗按钮切换 */
+bgmToggle.addEventListener("click", (e) => {
+  e.stopPropagation();
+  togglePlay();
+});
+
+/** 播放失败时重置 UI */
 audioPlayer.addEventListener("error", () => {
-  togglePlayButton.textContent = "播放";
-  disc.classList.remove("spinning");
+  updatePlayerUI(false);
+  bgmToggle.classList.add("is-muted");
 });
 
 function handlePointerMove(event) {
@@ -346,43 +322,6 @@ topicButtons.forEach((button) => {
 });
 
 togglePlayButton.addEventListener("click", togglePlay);
-prevTrackButton.addEventListener("click", () => {
-  playTrack(currentTrackIndex - 1);
-});
-nextTrackButton.addEventListener("click", () => {
-  playTrack(currentTrackIndex + 1);
-});
-function formatTime(seconds) {
-  if (Number.isNaN(seconds) || !Number.isFinite(seconds)) return "0:00";
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
-
-const musicTimeDisplay = document.createElement("div");
-musicTimeDisplay.className = "music-time";
-musicTimeDisplay.innerHTML = '<span id="music-current">0:00</span><span id="music-duration">0:00</span>';
-document.querySelector(".music-info").after(musicTimeDisplay);
-
-audioPlayer.addEventListener("timeupdate", () => {
-  const progress = audioPlayer.duration
-    ? (audioPlayer.currentTime / audioPlayer.duration) * 100
-    : 0;
-  musicProgressBar.style.width = `${progress}%`;
-  document.querySelector("#music-current").textContent = formatTime(audioPlayer.currentTime);
-});
-
-audioPlayer.addEventListener("loadedmetadata", () => {
-  document.querySelector("#music-duration").textContent = formatTime(audioPlayer.duration);
-});
-audioPlayer.addEventListener("ended", () => {
-  disc.classList.remove("spinning");
-  if (tracks.length > 1) {
-    playTrack(currentTrackIndex + 1);
-  } else {
-    togglePlayButton.textContent = "播放";
-  }
-});
 
 window.addEventListener("resize", () => {
   resizeCanvas();
@@ -408,7 +347,6 @@ window.addEventListener("pointercancel", () => {
 });
 
 renderPosts();
-loadTrack(0);
 resizeCanvas();
 seedAmbientParticles();
 animate();

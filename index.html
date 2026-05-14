@@ -74,21 +74,14 @@ mode: debug -&gt; review -&gt; archive</code></pre>
               <span class="wave wave-b"></span>
             </div>
             <div class="music-info">
-              <p class="eyebrow">Local Music</p>
-              <h2 id="music-title">还没有添加音乐</h2>
-              <p id="music-artist">把 mp3 放进 music 文件夹后就能播放。</p>
+              <p class="eyebrow">♫ Background Music</p>
+              <h2 id="music-title">点击页面开始播放</h2>
+              <p id="music-artist">点一下页面的任意位置，音乐就会响起</p>
             </div>
-            <div class="music-progress" aria-hidden="true">
-              <span id="music-progress-bar"></span>
+            <div class="music-controls">
+              <button type="button" id="toggle-play" aria-label="播放或暂停">播放</button>
             </div>
-            <div class="music-controls" aria-label="音乐控制">
-              <button type="button" id="prev-track" aria-label="上一首">Prev</button>
-              <button type="button" id="toggle-play" aria-label="播放或暂停">
-                Play
-              </button>
-              <button type="button" id="next-track" aria-label="下一首">Next</button>
-            </div>
-            <audio id="audio-player"></audio>
+            <audio id="audio-player" loop></audio>
           </section>
         </aside>
       </section>
@@ -186,6 +179,11 @@ mode: debug -&gt; review -&gt; archive</code></pre>
         </aside>
       </div>
     </main>
+
+    <button type="button" id="bgm-toggle" aria-label="切换背景音乐">
+      <svg class="music-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      <svg class="music-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    </button>
 
     <footer class="site-footer">
       <span>© <span id="footer-year"></span> Naiyael</span>
