@@ -382,31 +382,37 @@ h3 {
 
 .skill-panel {
   border-radius: 26px;
-  padding: 22px;
+  padding: 18px;
+  overflow: hidden;
 }
 
 .skill-grid {
-  display: grid;
+  display: flex;
   gap: 10px;
-  grid-template-columns: 1fr;
+  margin: 0 -18px;
+  padding: 2px 18px 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
 }
 
 .skill-grid article {
   display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 8px 12px;
-  align-items: center;
-  min-height: 76px;
+  flex: 0 0 158px;
+  grid-template-rows: 48px auto 1fr;
+  gap: 8px;
+  min-height: 152px;
+  scroll-snap-align: start;
   border: 1px solid rgba(132, 151, 176, 0.2);
   border-radius: 16px;
-  padding: 12px;
+  padding: 14px;
   background: rgba(255, 255, 255, 0.72);
 }
 
 .skill-grid img {
-  grid-row: span 2;
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 .skill-grid strong {
@@ -647,10 +653,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .skill-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .sidebar {
     position: static;
   }
@@ -690,9 +692,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .skill-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 520px) {
