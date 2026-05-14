@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="个人博客，记录技术学习、项目实践与思考。"
+      content="Naiyael 的个人博客，记录算法、AI、项目实践与日常思考。"
     />
-    <title>个人博客 | Tech Notes</title>
+    <title>Naiyael Blog</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -16,124 +16,94 @@
     <header class="site-header">
       <a class="brand" href="#" aria-label="回到首页">
         <span class="brand-mark">N</span>
-        <span>NeoLog</span>
+        <span>Naiyael</span>
       </a>
       <nav class="site-nav" aria-label="主导航">
-        <a href="#notes">文章</a>
-        <a href="#projects">项目</a>
+        <a href="#posts">文章</a>
+        <a href="#topics">分类</a>
         <a href="#about">关于</a>
       </nav>
     </header>
 
     <main>
+      <section class="notice" aria-label="站点公告">
+        <strong>即刻</strong>
+        <span>这里会持续记录算法训练、AI 学习、项目实践和一些阶段性想法。</span>
+      </section>
+
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
+        <div class="hero-card hero-intro">
           <p class="eyebrow">Personal Tech Blog</p>
-          <h1 id="hero-title">记录工程、算法与日常思考。</h1>
-          <p class="hero-text">
-            一个偏技术向的个人空间，用简洁的界面沉淀学习笔记、项目复盘和长期积累。
-          </p>
-          <div class="hero-actions">
-            <a class="primary-action" href="#notes">阅读最新文章</a>
-            <a class="secondary-action" href="#projects">查看项目</a>
-          </div>
-        </div>
-
-        <aside class="signal-panel" aria-label="站点摘要">
-          <div class="signal-row">
-            <span class="signal-label">Focus</span>
-            <span>CS / AI / ICPC</span>
-          </div>
-          <div class="signal-row">
-            <span class="signal-label">Status</span>
-            <span>Building in public</span>
-          </div>
-          <div class="signal-matrix" aria-hidden="true">
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
-          </div>
-        </aside>
-      </section>
-
-      <section class="content-band" id="notes" aria-labelledby="notes-title">
-        <div class="section-heading">
-          <p class="eyebrow">Latest Notes</p>
-          <h2 id="notes-title">最近文章</h2>
-        </div>
-        <div class="post-grid">
-          <article class="post-card">
-            <time datetime="2026-05-14">2026.05.14</time>
-            <h3>博客系统搭建记录</h3>
-            <p>从域名、DNS 到 GitHub Pages，整理一次完整的个人站点上线流程。</p>
-            <a href="#" aria-label="阅读：博客系统搭建记录">Read</a>
-          </article>
-          <article class="post-card">
-            <time datetime="2026-05-12">2026.05.12</time>
-            <h3>算法训练周记</h3>
-            <p>把题目按模型拆开复盘，重点记录 DP 状态设计和转移推导。</p>
-            <a href="#" aria-label="阅读：算法训练周记">Read</a>
-          </article>
-          <article class="post-card">
-            <time datetime="2026-05-09">2026.05.09</time>
-            <h3>AI 学习路线整理</h3>
-            <p>面向考研和就业，梳理基础课、工程项目与模型实践的优先级。</p>
-            <a href="#" aria-label="阅读：AI 学习路线整理">Read</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="split-section" id="projects" aria-labelledby="projects-title">
-        <div>
-          <p class="eyebrow">Projects</p>
-          <h2 id="projects-title">正在推进</h2>
-        </div>
-        <div class="project-list">
-          <article>
-            <span class="project-index">01</span>
-            <div>
-              <h3>个人博客</h3>
-              <p>静态页面、粒子交互、文章归档与 GitHub Pages 部署。</p>
-            </div>
-          </article>
-          <article>
-            <span class="project-index">02</span>
-            <div>
-              <h3>算法模板库</h3>
-              <p>整理常用图论、字符串、数据结构和 DP 模型。</p>
-            </div>
-          </article>
-          <article>
-            <span class="project-index">03</span>
-            <div>
-              <h3>AI 实践笔记</h3>
-              <p>记录模型调用、数据处理和小型应用的实现过程。</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="about-band" id="about" aria-labelledby="about-title">
-        <div class="about-copy">
-          <p class="eyebrow">About</p>
-          <h2 id="about-title">把学习过程变成可追踪的长期资产。</h2>
+          <h1 id="hero-title">芝兰生于深谷，不以无人而不芳。</h1>
           <p>
-            这里会放技术文章、竞赛复盘、项目记录和阶段性计划。页面保持克制，
-            内容优先，适合后续扩展成完整的个人知识库。
+            这里是 Naiyael 的个人博客。文章会按分类标签归档，方便以后按
+            算法、AI、C++、项目等方向快速回看。
           </p>
         </div>
-        <div class="stats" aria-label="博客数据">
-          <div><strong>03</strong><span>栏目</span></div>
-          <div><strong>12</strong><span>计划文章</span></div>
-          <div><strong>∞</strong><span>持续更新</span></div>
+
+        <div class="hero-card hero-visual" aria-label="博客方向">
+          <div class="orbit">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div>
+            <p>当前重点</p>
+            <strong>Algorithm / AI / Web</strong>
+          </div>
         </div>
       </section>
+
+      <section class="topic-strip" id="topics" aria-label="文章分类">
+        <button class="topic-pill is-active" type="button" data-filter="all">
+          首页
+        </button>
+        <button class="topic-pill" type="button" data-filter="算法">算法</button>
+        <button class="topic-pill" type="button" data-filter="AI">AI</button>
+        <button class="topic-pill" type="button" data-filter="C++">C++</button>
+        <button class="topic-pill" type="button" data-filter="Git">Git</button>
+        <button class="topic-pill" type="button" data-filter="网站">网站</button>
+        <button class="topic-pill" type="button" data-filter="生活杂谈">
+          生活杂谈
+        </button>
+      </section>
+
+      <div class="layout">
+        <section class="post-section" id="posts" aria-labelledby="posts-title">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Notes</p>
+              <h2 id="posts-title">全部文章</h2>
+            </div>
+            <span id="post-count">0 篇</span>
+          </div>
+
+          <div class="post-grid" id="post-grid"></div>
+          <p class="empty-state" id="empty-state" hidden>这个分类还没有文章。</p>
+        </section>
+
+        <aside class="sidebar" id="about">
+          <section class="profile-card">
+            <div class="profile-cover"></div>
+            <div class="avatar">N</div>
+            <h2>Naiyael</h2>
+            <p>记录算法训练、AI 学习和个人项目，把零散积累整理成可回看的内容。</p>
+            <a href="https://github.com/Naiyael" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+          </section>
+
+          <section class="side-card">
+            <h2>公告</h2>
+            <p>
+              后续你写新文章时，只要给文章加上对应标签，访问者就能通过上面的分类按钮筛选。
+            </p>
+          </section>
+        </aside>
+      </div>
     </main>
 
     <footer class="site-footer">
-      <span>© 2026 NeoLog</span>
-      <span>Built for GitHub Pages</span>
+      <span>© 2026 Naiyael</span>
+      <span>Built with GitHub Pages</span>
     </footer>
 
     <script src="script.js"></script>
