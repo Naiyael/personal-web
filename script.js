@@ -17,7 +17,12 @@ const musicProgressBar = document.querySelector("#music-progress-bar");
 const posts = [];
 
 const tracks = [
-  // 添加音乐示例：
+  {
+    title: "太阳之子",
+    artist: "周杰伦 · 官方平台收听",
+    officialUrl: "https://music.apple.com/us/song/1887230875?l=zh-Hans-CN",
+  },
+  // 本地音乐示例：
   // {
   //   title: "歌曲名",
   //   artist: "歌手或备注",
@@ -204,16 +209,27 @@ function loadTrack(index) {
 
   currentTrackIndex = (index + tracks.length) % tracks.length;
   const track = tracks[currentTrackIndex];
-  audioPlayer.src = track.src;
+  if (track.src) {
+    audioPlayer.src = track.src;
+  } else {
+    audioPlayer.removeAttribute("src");
+  }
   musicTitle.textContent = track.title;
   musicArtist.textContent = track.artist;
   togglePlayButton.disabled = false;
+  togglePlayButton.textContent = track.src ? "播放" : "官方收听";
   prevTrackButton.disabled = tracks.length < 2;
   nextTrackButton.disabled = tracks.length < 2;
 }
 
 async function togglePlay() {
   if (tracks.length === 0) {
+    return;
+  }
+
+  const track = tracks[currentTrackIndex];
+  if (!track.src && track.officialUrl) {
+    window.open(track.officialUrl, "_blank", "noopener,noreferrer");
     return;
   }
 
@@ -228,6 +244,9 @@ async function togglePlay() {
 
 function playTrack(index) {
   loadTrack(index);
+  if (!tracks[currentTrackIndex].src) {
+    return;
+  }
   audioPlayer.play();
   togglePlayButton.textContent = "暂停";
 }
