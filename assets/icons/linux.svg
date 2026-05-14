@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Linux">
+  <rect width="64" height="64" rx="16" fill="#202635"/>
+  <path fill="#f5c542" d="M22 39c0-3 2-6 4-8l1-8c1-5 3-8 6-8s6 3 7 8l1 8c2 2 4 5 4 8 0 7-5 11-12 11S22 46 22 39Z"/>
+  <path fill="#fff" d="M27 35c-3 2-5 5-5 9 0 4 4 7 9 7h2c-4-3-5-9-3-15l-3-1Zm11 1c2 6 1 12-3 15h2c5 0 9-3 9-7 0-4-2-7-5-9l-3 1Z"/>
+  <circle cx="30" cy="25" r="2" fill="#202635"/>
+  <circle cx="36" cy="25" r="2" fill="#202635"/>
+  <path fill="#f28c28" d="M29 31h8l-4 4-4-4Z"/>
+</svg>

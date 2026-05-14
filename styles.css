@@ -388,6 +388,7 @@ h3 {
 .skill-grid {
   display: grid;
   gap: 10px;
+  grid-template-columns: 1fr;
 }
 
 .skill-grid article {
@@ -395,6 +396,7 @@ h3 {
   grid-template-columns: 42px 1fr;
   gap: 8px 12px;
   align-items: center;
+  min-height: 76px;
   border: 1px solid rgba(132, 151, 176, 0.2);
   border-radius: 16px;
   padding: 12px;
@@ -414,6 +416,7 @@ h3 {
 .skill-grid span {
   color: var(--muted);
   font-size: 13px;
+  line-height: 1.45;
 }
 
 .topic-strip {
@@ -644,6 +647,10 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .skill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .sidebar {
     position: static;
   }
@@ -680,6 +687,10 @@ h3 {
   }
 
   .post-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-grid {
     grid-template-columns: 1fr;
   }
 }
