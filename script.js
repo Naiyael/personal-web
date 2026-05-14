@@ -213,11 +213,8 @@ function loadTrack(index) {
 
   currentTrackIndex = (index + tracks.length) % tracks.length;
   const track = tracks[currentTrackIndex];
-  if (track.src) {
-    audioPlayer.src = track.src;
-  } else {
-    audioPlayer.removeAttribute("src");
-  }
+  // 不提前设置 audio src，等用户点击播放时再加载
+  // 避免 mp3 文件未就绪时 audio 元素卡死在错误状态
   disc.classList.remove("spinning");
   musicTitle.textContent = track.title;
   musicArtist.textContent = track.artist;
@@ -277,6 +274,7 @@ async function togglePlay() {
 
   const track = tracks[currentTrackIndex];
 
+  // 外部链接跳转
   if (!track.src && track.officialUrl) {
     window.open(track.officialUrl, "_blank", "noopener,noreferrer");
     return;
@@ -286,14 +284,14 @@ async function togglePlay() {
 
   if (audioPlayer.paused) {
     try {
-      if (!audioPlayer.src || audioPlayer.readyState === 0) {
-        audioPlayer.src = track.src;
-        audioPlayer.load();
-      }
+      // 每次点击播放都重新设置 src 并加载，确保 audio 处于干净状态
+      audioPlayer.src = track.src;
+      audioPlayer.load();
       await audioPlayer.play();
       togglePlayButton.textContent = "暂停";
       disc.classList.add("spinning");
-    } catch {
+    } catch (err) {
+      console.warn("播放失败:", err);
       togglePlayButton.textContent = "播放";
       disc.classList.remove("spinning");
     }
@@ -306,7 +304,10 @@ async function togglePlay() {
 
 function playTrack(index) {
   loadTrack(index);
-  if (!tracks[currentTrackIndex].src) return;
+  const track = tracks[currentTrackIndex];
+  if (!track.src) return;
+  audioPlayer.src = track.src;
+  audioPlayer.load();
   audioPlayer.play()
     .then(() => {
       togglePlayButton.textContent = "暂停";
@@ -318,15 +319,11 @@ function playTrack(index) {
     });
 }
 
-function resetPlayerUI() {
+/* 加载/播放失败时重置 UI */
+audioPlayer.addEventListener("error", () => {
   togglePlayButton.textContent = "播放";
   disc.classList.remove("spinning");
-  musicProgressBar.style.width = "0";
-  document.querySelector("#music-current").textContent = "0:00";
-  document.querySelector("#music-duration").textContent = "0:00";
-}
-
-audioPlayer.addEventListener("error", resetPlayerUI);
+});
 
 function handlePointerMove(event) {
   pointer.px = pointer.moved ? pointer.x : event.clientX;
