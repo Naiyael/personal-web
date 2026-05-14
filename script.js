@@ -6,9 +6,26 @@ const postsTitle = document.querySelector("#posts-title");
 const emptyState = document.querySelector("#empty-state");
 const topicButtons = [...document.querySelectorAll(".topic-pill")];
 
-const posts = [
+const audioPlayer = document.querySelector("#audio-player");
+const togglePlayButton = document.querySelector("#toggle-play");
+const prevTrackButton = document.querySelector("#prev-track");
+const nextTrackButton = document.querySelector("#next-track");
+const musicTitle = document.querySelector("#music-title");
+const musicArtist = document.querySelector("#music-artist");
+const musicProgressBar = document.querySelector("#music-progress-bar");
+
+const posts = [];
+
+const tracks = [
+  // 添加音乐示例：
+  // {
+  //   title: "歌曲名",
+  //   artist: "歌手或备注",
+  //   src: "music/song.mp3",
+  // },
 ];
 
+let currentTrackIndex = 0;
 let width = 0;
 let height = 0;
 let particles = [];
@@ -21,7 +38,7 @@ let pointer = {
   moved: false,
 };
 
-const particleColors = ["#4b7bff", "#20d6c7", "#ff7a4d", "#19c37d"];
+const particleColors = ["#4f74ff", "#25c7d9", "#ff8a4c", "#28c78a"];
 
 function resizeCanvas() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -36,25 +53,25 @@ function resizeCanvas() {
 
 function createParticle(x, y, speed = 1) {
   const angle = Math.random() * Math.PI * 2;
-  const velocity = (Math.random() * 2.1 + 0.35) * speed;
+  const velocity = (Math.random() * 1.8 + 0.28) * speed;
 
   particles.push({
     x,
     y,
     vx: Math.cos(angle) * velocity,
     vy: Math.sin(angle) * velocity,
-    radius: Math.random() * 1.4 + 0.7,
+    radius: Math.random() * 1.2 + 0.6,
     life: 1,
-    decay: Math.random() * 0.018 + 0.012,
+    decay: Math.random() * 0.016 + 0.012,
     color: particleColors[Math.floor(Math.random() * particleColors.length)],
   });
 }
 
 function seedAmbientParticles() {
-  const count = Math.min(Math.floor((width * height) / 36000), 30);
+  const count = Math.min(Math.floor((width * height) / 46000), 24);
   for (let i = 0; i < count; i += 1) {
-    createParticle(Math.random() * width, Math.random() * height, 0.2);
-    particles[particles.length - 1].life = Math.random() * 0.45 + 0.18;
+    createParticle(Math.random() * width, Math.random() * height, 0.18);
+    particles[particles.length - 1].life = Math.random() * 0.42 + 0.16;
     particles[particles.length - 1].decay = 0.002;
   }
 }
@@ -63,14 +80,14 @@ function emitTrail(x, y, px, py) {
   const dx = x - px;
   const dy = y - py;
   const distance = Math.hypot(dx, dy);
-  const steps = Math.min(Math.max(Math.floor(distance / 12), 1), 10);
+  const steps = Math.min(Math.max(Math.floor(distance / 18), 1), 6);
 
   for (let i = 0; i < steps; i += 1) {
     const t = i / steps;
     createParticle(
-      px + dx * t + (Math.random() - 0.5) * 13,
-      py + dy * t + (Math.random() - 0.5) * 13,
-      0.62,
+      px + dx * t + (Math.random() - 0.5) * 10,
+      py + dy * t + (Math.random() - 0.5) * 10,
+      0.5,
     );
   }
 }
@@ -82,9 +99,9 @@ function drawConnections() {
       const b = particles[j];
       const distance = Math.hypot(a.x - b.x, a.y - b.y);
 
-      if (distance < 86) {
-        const opacity = (1 - distance / 86) * Math.min(a.life, b.life) * 0.22;
-        ctx.strokeStyle = `rgba(75, 123, 255, ${opacity})`;
+      if (distance < 76) {
+        const opacity = (1 - distance / 76) * Math.min(a.life, b.life) * 0.18;
+        ctx.strokeStyle = `rgba(79, 116, 255, ${opacity})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
@@ -98,9 +115,9 @@ function drawConnections() {
 function animate() {
   ctx.clearRect(0, 0, width, height);
 
-  if (!pointer.active && Math.random() < 0.08 && particles.length < 62) {
-    createParticle(Math.random() * width, Math.random() * height, 0.16);
-    particles[particles.length - 1].decay = 0.0028;
+  if (!pointer.active && Math.random() < 0.06 && particles.length < 48) {
+    createParticle(Math.random() * width, Math.random() * height, 0.14);
+    particles[particles.length - 1].decay = 0.0026;
   }
 
   drawConnections();
@@ -113,13 +130,14 @@ function animate() {
     particle.vy *= 0.985;
     particle.life -= particle.decay;
 
+    const radius = particle.radius * 3.5;
     const gradient = ctx.createRadialGradient(
       particle.x,
       particle.y,
       0,
       particle.x,
       particle.y,
-      particle.radius * 4,
+      radius,
     );
     gradient.addColorStop(0, particle.color);
     gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -127,7 +145,7 @@ function animate() {
     ctx.globalAlpha = Math.max(particle.life, 0);
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.radius * 4, 0, Math.PI * 2);
+    ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -174,6 +192,46 @@ function renderPosts(filter = "all") {
   emptyState.hidden = visiblePosts.length > 0;
 }
 
+function loadTrack(index) {
+  if (tracks.length === 0) {
+    audioPlayer.removeAttribute("src");
+    togglePlayButton.disabled = true;
+    prevTrackButton.disabled = true;
+    nextTrackButton.disabled = true;
+    musicProgressBar.style.width = "0";
+    return;
+  }
+
+  currentTrackIndex = (index + tracks.length) % tracks.length;
+  const track = tracks[currentTrackIndex];
+  audioPlayer.src = track.src;
+  musicTitle.textContent = track.title;
+  musicArtist.textContent = track.artist;
+  togglePlayButton.disabled = false;
+  prevTrackButton.disabled = tracks.length < 2;
+  nextTrackButton.disabled = tracks.length < 2;
+}
+
+async function togglePlay() {
+  if (tracks.length === 0) {
+    return;
+  }
+
+  if (audioPlayer.paused) {
+    await audioPlayer.play();
+    togglePlayButton.textContent = "暂停";
+  } else {
+    audioPlayer.pause();
+    togglePlayButton.textContent = "播放";
+  }
+}
+
+function playTrack(index) {
+  loadTrack(index);
+  audioPlayer.play();
+  togglePlayButton.textContent = "暂停";
+}
+
 function handlePointerMove(event) {
   pointer.px = pointer.moved ? pointer.x : event.clientX;
   pointer.py = pointer.moved ? pointer.y : event.clientY;
@@ -194,6 +252,27 @@ topicButtons.forEach((button) => {
   });
 });
 
+togglePlayButton.addEventListener("click", togglePlay);
+prevTrackButton.addEventListener("click", () => {
+  playTrack(currentTrackIndex - 1);
+});
+nextTrackButton.addEventListener("click", () => {
+  playTrack(currentTrackIndex + 1);
+});
+audioPlayer.addEventListener("timeupdate", () => {
+  const progress = audioPlayer.duration
+    ? (audioPlayer.currentTime / audioPlayer.duration) * 100
+    : 0;
+  musicProgressBar.style.width = `${progress}%`;
+});
+audioPlayer.addEventListener("ended", () => {
+  if (tracks.length > 1) {
+    playTrack(currentTrackIndex + 1);
+  } else {
+    togglePlayButton.textContent = "播放";
+  }
+});
+
 window.addEventListener("resize", () => {
   resizeCanvas();
   particles = [];
@@ -204,8 +283,8 @@ window.addEventListener("pointerdown", (event) => {
   pointer.active = true;
   pointer.moved = false;
   handlePointerMove(event);
-  for (let i = 0; i < 5; i += 1) {
-    createParticle(event.clientX, event.clientY, 0.72);
+  for (let i = 0; i < 4; i += 1) {
+    createParticle(event.clientX, event.clientY, 0.58);
   }
 });
 
@@ -218,6 +297,7 @@ window.addEventListener("pointercancel", () => {
 });
 
 renderPosts();
+loadTrack(0);
 resizeCanvas();
 seedAmbientParticles();
 animate();
