@@ -192,7 +192,9 @@ function renderPosts(filter = "all") {
     .join("");
   postsTitle.textContent = filter === "all" ? "全部文章" : `${filter} 文章`;
   postCount.textContent = `${visiblePosts.length} 篇`;
-  emptyState.hidden = visiblePosts.length > 0;
+  const hasPosts = visiblePosts.length > 0;
+  emptyState.hidden = hasPosts;
+  emptyState.setAttribute("aria-hidden", String(hasPosts));
 }
 
 function loadTrack(index) {
