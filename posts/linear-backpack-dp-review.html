@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="线性 DP、状态机 DP、计数 DP 与背包 DP 题目复盘，整理状态定义、转移方式和易错点。"
+    />
+    <title>线性 DP 和背包 DP 题目复盘 | Naiyael Trace</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="回到首页">
+        <img class="brand-avatar" src="../assets/avatar.jpg" alt="Naiyael 头像" />
+        <span>Naiyael Trace</span>
+      </a>
+      <nav class="site-nav" aria-label="文章导航">
+        <a href="../index.html#posts">日志</a>
+        <a href="../index.html#topics">索引</a>
+        <a href="../index.html#about">关于</a>
+      </nav>
+    </header>
+
+    <main class="article-shell">
+      <article class="article-page">
+        <header class="article-hero">
+          <p class="eyebrow">Algorithm / Dynamic Programming</p>
+          <h1>线性 DP 和背包 DP 题目复盘</h1>
+          <p>
+            比赛前快速回看做过的 DP 题，重点不是背代码，而是重新确认：
+            状态怎么定义，转移从哪里来，初始化和答案该落在哪个位置。
+          </p>
+          <div class="article-meta">
+            <span>整理于 2026-05-15</span>
+            <span># 算法</span>
+            <span># C++</span>
+            <span># DP</span>
+          </div>
+        </header>
+
+        <section class="article-section">
+          <h2>DP 做题固定流程</h2>
+          <ol class="process-list">
+            <li><strong>阶段：</strong>题目是不是按天、位置、长度、容量、总和推进？</li>
+            <li><strong>状态：</strong>dp 的每一维分别表示什么？</li>
+            <li><strong>选择：</strong>当前位置或当前物品有哪些选择？</li>
+            <li><strong>转移：</strong>当前状态从哪些旧状态来？</li>
+            <li><strong>初始化：</strong>空方案、第一天、容量 0、不可达状态怎么设？</li>
+            <li><strong>答案：</strong>最后取 dp[n]、max/min(dp[n][state])，还是区间前缀和？</li>
+          </ol>
+        </section>
+
+        <section class="article-section">
+          <h2>一、线性 DP / 状态机 DP</h2>
+          <div class="problem-grid">
+            <section class="problem-card">
+              <h3>189A - Cut Ribbon</h3>
+              <p><strong>模型：</strong>长度 i 可以由 i-a、i-b、i-c 转移来，求最多段数。</p>
+              <p><strong>状态：</strong>dp[i] 表示切出总长度 i 时最多能得到多少段。</p>
+              <p><strong>转移：</strong>dp[i] = max(dp[i-a], dp[i-b], dp[i-c]) + 1，来源状态必须可达。</p>
+              <p><strong>易错点：</strong>不可达状态不能参与转移；这是最大段数，不是方案数。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>455A - Boredom</h3>
+              <p><strong>模型：</strong>相同数字先合并贡献，选 x 就不能选 x-1 和 x+1。</p>
+              <p><strong>状态：</strong>dp[i] 表示只考虑数值 1..i 的最大分数。</p>
+              <p><strong>转移：</strong>dp[i] = max(dp[i-1], dp[i-2] + cnt[i])。</p>
+              <p><strong>易错点：</strong>阶段按数值推进，不是按输入顺序推进。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>1195C - Basketball Exercise</h3>
+              <p><strong>模型：</strong>每列三种状态：不选、选上面、选下面。</p>
+              <p><strong>状态：</strong>dp[i][0/1/2] 表示处理到第 i 列后的最大值。</p>
+              <p><strong>转移：</strong>选上只能从上一列“不选/选下”来；选下同理。</p>
+              <p><strong>易错点：</strong>状态必须包含当前列选法，否则会漏掉相邻冲突。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>706C - Hard problem</h3>
+              <p><strong>模型：</strong>每个字符串可以不反转或反转，要求字典序非降。</p>
+              <p><strong>状态：</strong>dp[i][0/1] 表示第 i 个字符串不反转/反转时的最小花费。</p>
+              <p><strong>转移：</strong>分别比较 s[i]、rev[i] 与上一位的两种状态。</p>
+              <p><strong>易错点：</strong>每个状态要分别比较，不能只看原串。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>467C - George and Job</h3>
+              <p><strong>模型：</strong>选 k 段长度为 m 的不相交连续子段，最大化总和。</p>
+              <p><strong>状态：</strong>dp[i][j] 表示前 i 个数里选 j 段的最大和。</p>
+              <p><strong>转移：</strong>不选 i：dp[i-1][j]；选以 i 结尾的段：dp[i-m][j-1] + sum。</p>
+              <p><strong>易错点：</strong>选区间时跳到 i-m，保证不重叠；先算前缀和。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>二、方案数 DP / 计数 DP</h2>
+          <div class="problem-grid">
+            <section class="problem-card">
+              <h3>474D - Flowers</h3>
+              <p><strong>模型：</strong>长度 i 可以由加 1 个红花或加 k 个白花得到。</p>
+              <p><strong>状态：</strong>dp[i] 表示总长度为 i 的方案数。</p>
+              <p><strong>转移：</strong>dp[i] = dp[i-1] + dp[i-k]，i >= k 时才有第二项。</p>
+              <p><strong>易错点：</strong>dp[0] = 1 很关键；多询问要预处理前缀和并取模。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>431C - k-Tree</h3>
+              <p><strong>模型：</strong>总和为 n，边权 1..k，至少有一条边 >= d。</p>
+              <p><strong>状态：</strong>dp[sum][0/1] 表示是否已经用过大边。</p>
+              <p><strong>转移：</strong>枚举 edge，nextUsed = used || edge >= d。</p>
+              <p><strong>易错点：</strong>dp[0][0] 是空方案起点，dp[0][1] 必须为 0。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>414B - Mashmokh and ACM</h3>
+              <p><strong>模型：</strong>长度逐步增加，后一个数必须是前一个数的倍数。</p>
+              <p><strong>状态：</strong>dp[len][last] 表示长度为 len，最后一个数为 last 的序列数。</p>
+              <p><strong>转移：</strong>从 x 转移到 x 的倍数，或反向枚举 last 的约数。</p>
+              <p><strong>易错点：</strong>枚举倍数比枚举所有 pair 更稳；每次加法取模。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>三、背包 DP / 可行性 DP</h2>
+          <div class="problem-grid">
+            <section class="problem-card">
+              <h3>577B - Modulo Sum</h3>
+              <p><strong>模型：</strong>只关心子序列和对 m 的余数。</p>
+              <p><strong>状态：</strong>dp[r] 表示能否选出非空子序列，使和 mod m = r。</p>
+              <p><strong>转移：</strong>x 单独形成 x%m；已有 r 转移到 (r+x)%m。</p>
+              <p><strong>易错点：</strong>不能初始化 dp[0]=true，因为题目要求非空；每轮用 ndp。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>478D - Red-Green Towers</h3>
+              <p><strong>模型：</strong>每层要么用红色，要么用绿色，受资源数量限制。</p>
+              <p><strong>状态：</strong>dp[j] 表示当前已经用了 j 个红色方块的方案数。</p>
+              <p><strong>转移：</strong>处理第 level 层时，倒序更新红色用量。</p>
+              <p><strong>易错点：</strong>先算最大高度 h；一维背包要倒序，避免同一层重复使用。</p>
+            </section>
+
+            <section class="problem-card">
+              <h3>19B - Checkout Assistant</h3>
+              <p><strong>模型：</strong>付费一道菜会获得 t[i]+1 个处理名额，目标覆盖至少 n 道菜。</p>
+              <p><strong>状态：</strong>dp[j] 表示覆盖 j 道菜所需的最小花费。</p>
+              <p><strong>转移：</strong>newJ = min(n, j + t[i] + 1)，dp[newJ] = min(dp[newJ], dp[j] + cost[i])。</p>
+              <p><strong>易错点：</strong>最小值背包要设 INF；容量超过 n 时截断；必须倒序。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="article-section">
+          <h2>四、赛前回看重点</h2>
+          <ul class="review-list">
+            <li>求最大/最小值：先想 dp[i] 或 dp[i][state]。</li>
+            <li>有总和、容量、资源限制：先想背包。</li>
+            <li>有多次询问：先预处理 dp，再做前缀和。</li>
+            <li>每个位置两种选择：优先想 dp[i][0/1]。</li>
+            <li>每个物品只能用一次：一维背包倒序；能重复用：正序。</li>
+            <li>不可达状态不要参与转移：最小值题常用 INF，最大值题用负无穷或 -1。</li>
+          </ul>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

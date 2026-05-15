@@ -15,7 +15,20 @@ const musicArtist = document.querySelector("#music-artist");
 const musicProgressBar = document.querySelector("#music-progress-bar");
 const themeToggleButton = document.querySelector("#theme-toggle");
 
-const posts = [];
+const posts = [
+  {
+    title: "线性 DP 和背包 DP 题目复盘",
+    date: "2026-05-15",
+    updated: "2026-05-15",
+    summary:
+      "整理线性 DP、状态机 DP、计数 DP 和背包 DP 的常见模型，按题目复盘状态定义、转移和易错点。",
+    tags: ["算法", "C++", "DP"],
+    cover:
+      "linear-gradient(135deg, #123456 0%, #2563eb 48%, #12b981 100%)",
+    pinned: true,
+    url: "posts/linear-backpack-dp-review.html",
+  },
+];
 
 const tracks = [
   { title: "晴天", artist: "周杰伦", src: "music/晴天.mp3" },
