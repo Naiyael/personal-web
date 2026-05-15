@@ -13,6 +13,7 @@ const nextTrackButton = document.querySelector("#next-track");
 const musicTitle = document.querySelector("#music-title");
 const musicArtist = document.querySelector("#music-artist");
 const musicProgressBar = document.querySelector("#music-progress-bar");
+const themeToggleButton = document.querySelector("#theme-toggle");
 
 const posts = [];
 
@@ -29,6 +30,20 @@ let particles = [];
 let pointer = { x: 0, y: 0, px: 0, py: 0, active: false, moved: false };
 
 const particleColors = ["#4f74ff", "#25c7d9", "#ff8a4c", "#28c78a"];
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem("site-theme", theme);
+  if (themeToggleButton) {
+    themeToggleButton.textContent = theme === "dark" ? "☼" : "◐";
+  }
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem("site-theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(savedTheme || (prefersDark ? "dark" : "light"));
+}
 
 function resizeCanvas() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -225,6 +240,12 @@ topicButtons.forEach((button) => {
 togglePlayButton.addEventListener("click", togglePlay);
 prevTrackButton.addEventListener("click", () => playTrack(currentTrackIndex - 1));
 nextTrackButton.addEventListener("click", () => playTrack(currentTrackIndex + 1));
+if (themeToggleButton) {
+  themeToggleButton.addEventListener("click", () => {
+    const currentTheme = document.documentElement.dataset.theme || "light";
+    applyTheme(currentTheme === "dark" ? "light" : "dark");
+  });
+}
 audioPlayer.addEventListener("timeupdate", () => {
   const progress = audioPlayer.duration
     ? (audioPlayer.currentTime / audioPlayer.duration) * 100
@@ -254,6 +275,7 @@ window.addEventListener("pointercancel", () => {
   pointer.active = false;
 });
 
+initTheme();
 renderPosts();
 loadTrack(0);
 resizeCanvas();
