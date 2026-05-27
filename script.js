@@ -18,6 +18,18 @@ const skillGrid = document.querySelector(".skill-grid");
 
 const posts = [
   {
+    title: "ICPC省赛常用模板整理",
+    date: "2026-05-27",
+    updated: "2026-05-27",
+    summary:
+      "把省赛前高频会用到的 C++ 模板按图论、数据结构、DP、字符串和基础数学整理成一篇可直接检索的模板册。",
+    tags: ["算法", "C++", "ICPC"],
+    cover:
+      "url('assets/icpc-burger.jpg') center/112px auto no-repeat, linear-gradient(135deg, #2558c2 0%, #f2bf31 52%, #d53f35 100%)",
+    pinned: true,
+    url: "posts/icpc-provincial-templates.html",
+  },
+  {
     title: "线性 DP 和背包 DP 题目复盘",
     date: "2026-05-15",
     updated: "2026-05-15",
