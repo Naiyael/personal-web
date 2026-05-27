@@ -471,6 +471,7 @@ h3 {
 .skill-panel {
   margin-top: 22px;
   padding: 20px;
+  overflow: hidden;
 }
 
 .section-heading,
@@ -482,14 +483,45 @@ h3 {
   margin-bottom: 18px;
 }
 
-.skill-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.skill-controls {
+  display: flex;
   gap: 10px;
+}
+
+.skill-nav {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.78);
+  cursor: pointer;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.skill-nav:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+  background: rgba(79, 116, 255, 0.08);
+}
+
+.skill-grid {
+  display: flex;
+  gap: 12px;
+  will-change: transform;
+  transition: transform 0.45s ease;
 }
 
 .skill-grid article {
   display: grid;
+  flex: 0 0 calc((100% - 36px) / 4);
   min-height: 150px;
   grid-template-rows: 52px auto 1fr;
   gap: 8px;
@@ -509,9 +541,11 @@ h3 {
 }
 
 .skill-grid img {
-  width: 52px;
+  width: auto;
   height: 52px;
+  max-width: 100%;
   object-fit: contain;
+  justify-self: start;
 }
 
 .skill-grid strong {
@@ -721,8 +755,8 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .skill-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .skill-grid article {
+    flex-basis: calc((100% - 12px) / 2);
   }
 
   .sidebar {
@@ -760,7 +794,10 @@ h3 {
     width: 100%;
   }
 
-  .skill-grid,
+  .skill-grid article {
+    flex-basis: 100%;
+  }
+
   .post-grid {
     grid-template-columns: 1fr;
   }
@@ -789,6 +826,15 @@ h3 {
   .section-title {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .skill-controls {
+    width: 100%;
+  }
+
+  .skill-nav {
+    flex: 1 1 0;
+    text-align: center;
   }
 }
 
