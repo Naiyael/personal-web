@@ -66,9 +66,9 @@ using namespace std;
 const int INF = 2e18;
 const int MOD = 1e9 + 7;
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  return 0;
 }
               </code></pre>
             </article>
@@ -88,31 +88,31 @@ using namespace std;
 const int N = 10010;
 int dist[N];
 int main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-memset(dist,-1,sizeof dist);
-queue&lt;int&gt; q;
-dist[n] = 0;
-q.push(n);
-while (!q.empty()) {
-int cur = q.front();
-q.pop();
-if (cur == m) {
-cout &lt;&lt; dist[cur] &lt;&lt; endl;
-return 0;
-}
-if (cur * 2 &lt; N &amp;&amp; dist[cur * 2] == -1) {
-dist[cur * 2] = dist[cur] + 1;
-q.push(cur * 2);
-}
-if (cur - 1 &gt; 0 &amp;&amp; dist[cur - 1] == -1) {
-dist[cur - 1] = dist[cur] + 1;
-q.push(cur - 1);
-}
-}
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  memset(dist,-1,sizeof dist);
+  queue&lt;int&gt; q;
+  dist[n] = 0;
+  q.push(n);
+  while (!q.empty()) {
+    int cur = q.front();
+    q.pop();
+    if (cur == m) {
+      cout &lt;&lt; dist[cur] &lt;&lt; endl;
+      return 0;
+    }
+    if (cur * 2 &lt; N &amp;&amp; dist[cur * 2] == -1) {
+      dist[cur * 2] = dist[cur] + 1;
+      q.push(cur * 2);
+    }
+    if (cur - 1 &gt; 0 &amp;&amp; dist[cur - 1] == -1) {
+      dist[cur - 1] = dist[cur] + 1;
+      q.push(cur - 1);
+    }
+  }
+  return 0;
 }
               </code></pre>
             </article>
@@ -128,31 +128,31 @@ vector&lt;int&gt; adj[N];
 int cat[N];
 int n,m,ans;
 void dfs(int u,int fa,int cnt) {
-if (cat[u]) cnt++;
-else cnt = 0;
-if (cnt &gt; m) return;
-bool isLeaf = true;
-for (int v : adj[u]) {
-if (v == fa) continue;
-isLeaf = false;
-dfs(v,u,cnt);
-}
-if (isLeaf) ans++;
+  if (cat[u]) cnt++;
+  else cnt = 0;
+  if (cnt &gt; m) return;
+  bool isLeaf = true;
+  for (int v : adj[u]) {
+    if (v == fa) continue;
+    isLeaf = false;
+    dfs(v,u,cnt);
+  }
+  if (isLeaf) ans++;
 }
 int main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-cin &gt;&gt; n &gt;&gt; m;
-for (int i = 1;i &lt;= n;i++) cin &gt;&gt; cat[i];
-for (int i = 1;i &lt; n;i++) {
-int u,v;
-cin &gt;&gt; u &gt;&gt; v;
-adj[u].push_back(v);
-adj[v].push_back(u);
-}
-dfs(1,0,0);
-cout &lt;&lt; ans &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin &gt;&gt; n &gt;&gt; m;
+  for (int i = 1;i &lt;= n;i++) cin &gt;&gt; cat[i];
+  for (int i = 1;i &lt; n;i++) {
+    int u,v;
+    cin &gt;&gt; u &gt;&gt; v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+  dfs(1,0,0);
+  cout &lt;&lt; ans &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -166,21 +166,21 @@ using namespace std;
 const int N = 2e5 + 10;
 int pre[N],sz[N];
 void init(int n) {
-for (int i = 1;i &lt;= n;i++) {
-pre[i] = i;
-sz[i] = 1;
-}
+  for (int i = 1;i &lt;= n;i++) {
+    pre[i] = i;
+    sz[i] = 1;
+  }
 }
 int find(int x) {
-if (pre[x] == x) return x;
-return pre[x] = find(pre[x]);
+  if (pre[x] == x) return x;
+  return pre[x] = find(pre[x]);
 }
 void join(int x,int y) {
-int fx = find(x);
-int fy = find(y);
-if (fx == fy) return;
-pre[fy] = fx;
-sz[fx] += sz[fy];
+  int fx = find(x);
+  int fy = find(y);
+  if (fx == fy) return;
+  pre[fy] = fx;
+  sz[fx] += sz[fy];
 }
               </code></pre>
             </article>
@@ -195,47 +195,47 @@ using namespace std;
 const int N = 2e5 + 10;
 int pre[N];
 struct Edge {
-int u,v,w;
+  int u,v,w;
 };
 void init(int n) {
-for (int i = 1;i &lt;= n;i++) pre[i] = i;
+  for (int i = 1;i &lt;= n;i++) pre[i] = i;
 }
 int find(int x) {
-if (pre[x] == x) return x;
-return pre[x] = find(pre[x]);
+  if (pre[x] == x) return x;
+  return pre[x] = find(pre[x]);
 }
 bool join(int x,int y) {
-int fx = find(x);
-int fy = find(y);
-if (fx == fy) return false;
-pre[fy] = fx;
-return true;
+  int fx = find(x);
+  int fy = find(y);
+  if (fx == fy) return false;
+  pre[fy] = fx;
+  return true;
 }
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-init(n);
-vector&lt;Edge&gt; edges;
-for (int i = 1;i &lt;= m;i++) {
-int u,v,w;
-cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
-edges.push_back({u,v,w});
-}
-sort(edges.begin(),edges.end(),[](const Edge&amp; a,const Edge&amp; b) {
-return a.w &lt; b.w;
-});
-int ans = 0,cnt = 0;
-for (Edge e : edges) {
-if (join(e.u,e.v)) {
-ans += e.w;
-cnt++;
-}
-}
-if (cnt != n - 1) cout &lt;&lt; &quot;orz&quot; &lt;&lt; endl;
-else cout &lt;&lt; ans &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  init(n);
+  vector&lt;Edge&gt; edges;
+  for (int i = 1;i &lt;= m;i++) {
+    int u,v,w;
+    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+    edges.push_back({u,v,w});
+  }
+  sort(edges.begin(),edges.end(),[](const Edge&amp; a,const Edge&amp; b) {
+    return a.w &lt; b.w;
+  });
+  int ans = 0,cnt = 0;
+  for (Edge e : edges) {
+    if (join(e.u,e.v)) {
+      ans += e.w;
+      cnt++;
+    }
+  }
+  if (cnt != n - 1) cout &lt;&lt; &quot;orz&quot; &lt;&lt; endl;
+  else cout &lt;&lt; ans &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -251,44 +251,44 @@ const int N = 2010;
 const int INF = 2e18;
 int c[N],k[N];
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n;
-cin &gt;&gt; n;
-vector&lt;pair&lt;int,int&gt;&gt; city(n + 1);
-for (int i = 1;i &lt;= n;i++) cin &gt;&gt; city[i].first &gt;&gt; city[i].second;
-for (int i = 1;i &lt;= n;i++) cin &gt;&gt; c[i];
-for (int i = 1;i &lt;= n;i++) cin &gt;&gt; k[i];
-vector&lt;int&gt; minDist(n + 1),parent(n + 1,0);
-vector&lt;bool&gt; vis(n + 1,false);
-for (int i = 1;i &lt;= n;i++) minDist[i] = c[i];
-int ans = 0;
-vector&lt;int&gt; stations;
-vector&lt;pair&lt;int,int&gt;&gt; connections;
-for (int t = 1;t &lt;= n;t++) {
-int cur = -1,minVal = INF;
-for (int i = 1;i &lt;= n;i++) {
-if (!vis[i] &amp;&amp; minDist[i] &lt; minVal) {
-minVal = minDist[i];
-cur = i;
-}
-}
-vis[cur] = true;
-ans += minVal;
-if (parent[cur] == 0) stations.push_back(cur);
-else connections.push_back({cur,parent[cur]});
-for (int i = 1;i &lt;= n;i++) {
-if (vis[i]) continue;
-int cost = (k[cur] + k[i]) *
-(abs(city[cur].first - city[i].first) + abs(city[cur].second - city[i].second));
-if (cost &lt; minDist[i]) {
-minDist[i] = cost;
-parent[i] = cur;
-}
-}
-}
-cout &lt;&lt; ans &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n;
+  cin &gt;&gt; n;
+  vector&lt;pair&lt;int,int&gt;&gt; city(n + 1);
+  for (int i = 1;i &lt;= n;i++) cin &gt;&gt; city[i].first &gt;&gt; city[i].second;
+  for (int i = 1;i &lt;= n;i++) cin &gt;&gt; c[i];
+  for (int i = 1;i &lt;= n;i++) cin &gt;&gt; k[i];
+  vector&lt;int&gt; minDist(n + 1),parent(n + 1,0);
+  vector&lt;bool&gt; vis(n + 1,false);
+  for (int i = 1;i &lt;= n;i++) minDist[i] = c[i];
+  int ans = 0;
+  vector&lt;int&gt; stations;
+  vector&lt;pair&lt;int,int&gt;&gt; connections;
+  for (int t = 1;t &lt;= n;t++) {
+    int cur = -1,minVal = INF;
+    for (int i = 1;i &lt;= n;i++) {
+      if (!vis[i] &amp;&amp; minDist[i] &lt; minVal) {
+        minVal = minDist[i];
+        cur = i;
+      }
+    }
+    vis[cur] = true;
+    ans += minVal;
+    if (parent[cur] == 0) stations.push_back(cur);
+    else connections.push_back({cur,parent[cur]});
+    for (int i = 1;i &lt;= n;i++) {
+      if (vis[i]) continue;
+      int cost = (k[cur] + k[i]) *
+      (abs(city[cur].first - city[i].first) + abs(city[cur].second - city[i].second));
+      if (cost &lt; minDist[i]) {
+        minDist[i] = cost;
+        parent[i] = cur;
+      }
+    }
+  }
+  cout &lt;&lt; ans &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -302,52 +302,52 @@ using namespace std;
 #define int long long
 const int INF = 2e18;
 struct Edge {
-int to;
-int weight;
+  int to;
+  int weight;
 };
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-vector&lt;vector&lt;Edge&gt;&gt; graph(n + 1);
-for (int i = 1;i &lt;= m;i++) {
-int u,v,w;
-cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
-graph[u].push_back({v,w});
-graph[v].push_back({u,w});
-}
-vector&lt;int&gt; minDist(n + 1,INF);
-vector&lt;int&gt; parent(n + 1,-1);
-vector&lt;bool&gt; vis(n + 1,false);
-priority_queue&lt;pair&lt;int,int&gt;,vector&lt;pair&lt;int,int&gt;&gt;,greater&lt;pair&lt;int,int&gt;&gt;&gt; pq;
-minDist[1] = 0;
-pq.push({0,1});
-while (!pq.empty()) {
-int cur = pq.top().second;
-pq.pop();
-if (vis[cur]) continue;
-vis[cur] = true;
-for (auto edge : graph[cur]) {
-int to = edge.to;
-int weight = edge.weight;
-if (!vis[to] &amp;&amp; minDist[cur] + weight &lt; minDist[to]) {
-minDist[to] = minDist[cur] + weight;
-parent[to] = cur;
-pq.push({minDist[to],to});
-}
-}
-}
-if (minDist[n] == INF) {
-cout &lt;&lt; -1 &lt;&lt; endl;
-return 0;
-}
-vector&lt;int&gt; path;
-for (int cur = n;cur != -1;cur = parent[cur]) path.push_back(cur);
-reverse(path.begin(),path.end());
-for (int x : path) cout &lt;&lt; x &lt;&lt; &quot; &quot;;
-cout &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  vector&lt;vector&lt;Edge&gt;&gt; graph(n + 1);
+  for (int i = 1;i &lt;= m;i++) {
+    int u,v,w;
+    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+    graph[u].push_back({v,w});
+    graph[v].push_back({u,w});
+  }
+  vector&lt;int&gt; minDist(n + 1,INF);
+  vector&lt;int&gt; parent(n + 1,-1);
+  vector&lt;bool&gt; vis(n + 1,false);
+  priority_queue&lt;pair&lt;int,int&gt;,vector&lt;pair&lt;int,int&gt;&gt;,greater&lt;pair&lt;int,int&gt;&gt;&gt; pq;
+  minDist[1] = 0;
+  pq.push({0,1});
+  while (!pq.empty()) {
+    int cur = pq.top().second;
+    pq.pop();
+    if (vis[cur]) continue;
+    vis[cur] = true;
+    for (auto edge : graph[cur]) {
+      int to = edge.to;
+      int weight = edge.weight;
+      if (!vis[to] &amp;&amp; minDist[cur] + weight &lt; minDist[to]) {
+        minDist[to] = minDist[cur] + weight;
+        parent[to] = cur;
+        pq.push({minDist[to],to});
+      }
+    }
+  }
+  if (minDist[n] == INF) {
+    cout &lt;&lt; -1 &lt;&lt; endl;
+    return 0;
+  }
+  vector&lt;int&gt; path;
+  for (int cur = n;cur != -1;cur = parent[cur]) path.push_back(cur);
+  reverse(path.begin(),path.end());
+  for (int x : path) cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+  cout &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -361,38 +361,38 @@ using namespace std;
 #define int long long
 const int INF = 2e18;
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-vector&lt;vector&lt;int&gt;&gt; dist(n + 1,vector&lt;int&gt;(n + 1,INF));
-for (int i = 1;i &lt;= n;i++) {
-dist[i][i] = 0;
-}
-for (int i = 1;i &lt;= m;i++) {
-int u,v,w;
-cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
-dist[u][v] = min(dist[u][v],w);
-// 无向图再加这一句
-// dist[v][u] = min(dist[v][u],w);
-}
-for (int k = 1;k &lt;= n;k++) {
-for (int i = 1;i &lt;= n;i++) {
-for (int j = 1;j &lt;= n;j++) {
-if (dist[i][k] == INF || dist[k][j] == INF) continue;
-dist[i][j] = min(dist[i][j],dist[i][k] + dist[k][j]);
-}
-}
-}
-int q;
-cin &gt;&gt; q;
-while (q--) {
-int u,v;
-cin &gt;&gt; u &gt;&gt; v;
-if (dist[u][v] == INF) cout &lt;&lt; -1 &lt;&lt; endl;
-else cout &lt;&lt; dist[u][v] &lt;&lt; endl;
-}
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  vector&lt;vector&lt;int&gt;&gt; dist(n + 1,vector&lt;int&gt;(n + 1,INF));
+  for (int i = 1;i &lt;= n;i++) {
+    dist[i][i] = 0;
+  }
+  for (int i = 1;i &lt;= m;i++) {
+    int u,v,w;
+    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+    dist[u][v] = min(dist[u][v],w);
+    // 无向图再加这一句
+    // dist[v][u] = min(dist[v][u],w);
+  }
+  for (int k = 1;k &lt;= n;k++) {
+    for (int i = 1;i &lt;= n;i++) {
+      for (int j = 1;j &lt;= n;j++) {
+        if (dist[i][k] == INF || dist[k][j] == INF) continue;
+        dist[i][j] = min(dist[i][j],dist[i][k] + dist[k][j]);
+      }
+    }
+  }
+  int q;
+  cin &gt;&gt; q;
+  while (q--) {
+    int u,v;
+    cin &gt;&gt; u &gt;&gt; v;
+    if (dist[u][v] == INF) cout &lt;&lt; -1 &lt;&lt; endl;
+    else cout &lt;&lt; dist[u][v] &lt;&lt; endl;
+  }
+  return 0;
 }
               </code></pre>
             </article>
@@ -407,38 +407,38 @@ const int N = 2e5 + 10;
 vector&lt;int&gt; g[N];
 int in[N];
 int main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-for (int i = 1;i &lt;= m;i++) {
-int u,v;
-cin &gt;&gt; u &gt;&gt; v;
-g[u].push_back(v);
-in[v]++;
-}
-queue&lt;int&gt; q;
-for (int i = 1;i &lt;= n;i++) {
-if (in[i] == 0) q.push(i);
-}
-vector&lt;int&gt; order;
-while (!q.empty()) {
-int cur = q.front();
-q.pop();
-order.push_back(cur);
-for (int v : g[cur]) {
-in[v]--;
-if (in[v] == 0) q.push(v);
-}
-}
-if ((int)order.size() &lt; n) {
-cout &lt;&lt; &quot;Cycle&quot; &lt;&lt; endl;
-}
-else {
-for (int x : order) cout &lt;&lt; x &lt;&lt; &quot; &quot;;
-cout &lt;&lt; endl;
-}
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  for (int i = 1;i &lt;= m;i++) {
+    int u,v;
+    cin &gt;&gt; u &gt;&gt; v;
+    g[u].push_back(v);
+    in[v]++;
+  }
+  queue&lt;int&gt; q;
+  for (int i = 1;i &lt;= n;i++) {
+    if (in[i] == 0) q.push(i);
+  }
+  vector&lt;int&gt; order;
+  while (!q.empty()) {
+    int cur = q.front();
+    q.pop();
+    order.push_back(cur);
+    for (int v : g[cur]) {
+      in[v]--;
+      if (in[v] == 0) q.push(v);
+    }
+  }
+  if ((int)order.size() &lt; n) {
+    cout &lt;&lt; &quot;Cycle&quot; &lt;&lt; endl;
+  }
+  else {
+    for (int x : order) cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+  }
+  return 0;
 }
               </code></pre>
             </article>
@@ -453,27 +453,27 @@ using namespace std;
 #define int long long
 const int INF = 2e18;
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-vector&lt;vector&lt;int&gt;&gt; d(n + 1,vector&lt;int&gt;(n + 1,INF));
-for (int i = 1;i &lt;= n;i++) d[i][i] = 0;
-for (int i = 1;i &lt;= m;i++) {
-int u,v,w;
-cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
-d[u][v] = min(d[u][v],w);
-d[v][u] = min(d[v][u],w);
-}
-for (int k = 1;k &lt;= n;k++) {
-for (int i = 1;i &lt;= n;i++) {
-for (int j = 1;j &lt;= n;j++) {
-if (d[i][k] == INF || d[k][j] == INF) continue;
-d[i][j] = min(d[i][j],d[i][k] + d[k][j]);
-}
-}
-}
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  vector&lt;vector&lt;int&gt;&gt; d(n + 1,vector&lt;int&gt;(n + 1,INF));
+  for (int i = 1;i &lt;= n;i++) d[i][i] = 0;
+  for (int i = 1;i &lt;= m;i++) {
+    int u,v,w;
+    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+    d[u][v] = min(d[u][v],w);
+    d[v][u] = min(d[v][u],w);
+  }
+  for (int k = 1;k &lt;= n;k++) {
+    for (int i = 1;i &lt;= n;i++) {
+      for (int j = 1;j &lt;= n;j++) {
+        if (d[i][k] == INF || d[k][j] == INF) continue;
+        d[i][j] = min(d[i][j],d[i][k] + d[k][j]);
+      }
+    }
+  }
+  return 0;
 }
               </code></pre>
             </article>
@@ -500,14 +500,14 @@ int pos = lower_bound(pre.begin() + 1,pre.end(),x) - pre.begin();
               <p><strong>易错点：</strong>check(mid) 的含义必须固定；最大化答案用 l = mid，最小化答案用 r = mid；注意 mid 写法防死循环。</p>
               <pre><code>
 bool check(int x) {
-// 如果 x 可行，返回 true
-return true;
+  // 如果 x 可行，返回 true
+  return true;
 }
 int l = 0,r = 1e18;
 while (l &lt; r) {
-int mid = (l + r + 1) / 2;
-if (check(mid)) l = mid;
-else r = mid - 1;
+  int mid = (l + r + 1) / 2;
+  if (check(mid)) l = mid;
+  else r = mid - 1;
 }
 cout &lt;&lt; l &lt;&lt; endl;
               </code></pre>
@@ -536,12 +536,12 @@ int ans = 0;
 int l = 1;
 int sum = 0;
 for (int r = 1;r &lt;= n;r++) {
-sum += a[r];
-while (sum &gt; t) {
-sum -= a[l];
-l++;
-}
-ans = max(ans,r - l + 1);
+  sum += a[r];
+  while (sum &gt; t) {
+    sum -= a[l];
+    l++;
+  }
+  ans = max(ans,r - l + 1);
 }
 cout &lt;&lt; ans &lt;&lt; endl;
               </code></pre>
@@ -555,12 +555,12 @@ cout &lt;&lt; ans &lt;&lt; endl;
 vector&lt;int&gt; leftLess(n + 1,0);
 stack&lt;int&gt; st;
 for (int i = 1;i &lt;= n;i++) {
-while (!st.empty() &amp;&amp; a[st.top()] &gt;= a[i]) {
-st.pop();
-}
-if (!st.empty()) leftLess[i] = st.top();
-else leftLess[i] = 0;
-st.push(i);
+  while (!st.empty() &amp;&amp; a[st.top()] &gt;= a[i]) {
+    st.pop();
+  }
+  if (!st.empty()) leftLess[i] = st.top();
+  else leftLess[i] = 0;
+  st.push(i);
 }
               </code></pre>
             </article>
@@ -572,16 +572,16 @@ st.push(i);
 // 每个长度为 k 的窗口最大值
 deque&lt;int&gt; q;
 for (int i = 1;i &lt;= n;i++) {
-while (!q.empty() &amp;&amp; q.front() &lt;= i - k) {
-q.pop_front();
-}
-while (!q.empty() &amp;&amp; a[q.back()] &lt;= a[i]) {
-q.pop_back();
-}
-q.push_back(i);
-if (i &gt;= k) {
-cout &lt;&lt; a[q.front()] &lt;&lt; &quot; &quot;;
-}
+  while (!q.empty() &amp;&amp; q.front() &lt;= i - k) {
+    q.pop_front();
+  }
+  while (!q.empty() &amp;&amp; a[q.back()] &lt;= a[i]) {
+    q.pop_back();
+  }
+  q.push_back(i);
+  if (i &gt;= k) {
+    cout &lt;&lt; a[q.front()] &lt;&lt; &quot; &quot;;
+  }
 }
 cout &lt;&lt; endl;
               </code></pre>
@@ -598,41 +598,41 @@ using namespace std;
 const int N = 2e5 + 10;
 int tr[N];
 int lowbit(int x) {
-return x &amp; -x;
+  return x &amp; -x;
 }
 void add(int x,int v) {
-for (int i = x;i &lt; N;i += lowbit(i)) {
-tr[i] += v;
-}
+  for (int i = x;i &lt; N;i += lowbit(i)) {
+    tr[i] += v;
+  }
 }
 int query(int x) {
-int res = 0;
-for (int i = x;i &gt; 0;i -= lowbit(i)) {
-res += tr[i];
-}
-return res;
+  int res = 0;
+  for (int i = x;i &gt; 0;i -= lowbit(i)) {
+    res += tr[i];
+  }
+  return res;
 }
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,q;
-cin &gt;&gt; n &gt;&gt; q;
-for (int i = 1;i &lt;= n;i++) {
-int x;
-cin &gt;&gt; x;
-add(i,x);
-}
-while (q--) {
-int op,l,r;
-cin &gt;&gt; op &gt;&gt; l &gt;&gt; r;
-if (op == 1) {
-add(l,r);
-}
-else {
-cout &lt;&lt; query(r) - query(l - 1) &lt;&lt; endl;
-}
-}
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,q;
+  cin &gt;&gt; n &gt;&gt; q;
+  for (int i = 1;i &lt;= n;i++) {
+    int x;
+    cin &gt;&gt; x;
+    add(i,x);
+  }
+  while (q--) {
+    int op,l,r;
+    cin &gt;&gt; op &gt;&gt; l &gt;&gt; r;
+    if (op == 1) {
+      add(l,r);
+    }
+    else {
+      cout &lt;&lt; query(r) - query(l - 1) &lt;&lt; endl;
+    }
+  }
+  return 0;
 }
               </code></pre>
             </article>
@@ -652,26 +652,26 @@ using namespace std;
 #define int long long
 vector&lt;int&gt; alls;
 int getId(int x) {
-return lower_bound(alls.begin(),alls.end(),x) - alls.begin() + 1;
+  return lower_bound(alls.begin(),alls.end(),x) - alls.begin() + 1;
 }
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n;
-cin &gt;&gt; n;
-vector&lt;int&gt; a(n + 1);
-for (int i = 1;i &lt;= n;i++) {
-cin &gt;&gt; a[i];
-alls.push_back(a[i]);
-}
-sort(alls.begin(),alls.end());
-alls.erase(unique(alls.begin(),alls.end()),alls.end());
-for (int i = 1;i &lt;= n;i++) {
-int id = getId(a[i]);
-cout &lt;&lt; id &lt;&lt; &quot; &quot;;
-}
-cout &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n;
+  cin &gt;&gt; n;
+  vector&lt;int&gt; a(n + 1);
+  for (int i = 1;i &lt;= n;i++) {
+    cin &gt;&gt; a[i];
+    alls.push_back(a[i]);
+  }
+  sort(alls.begin(),alls.end());
+  alls.erase(unique(alls.begin(),alls.end()),alls.end());
+  for (int i = 1;i &lt;= n;i++) {
+    int id = getId(a[i]);
+    cout &lt;&lt; id &lt;&lt; &quot; &quot;;
+  }
+  cout &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -682,9 +682,9 @@ return 0;
               <pre><code>
 vector&lt;int&gt; dp(V + 1,0);
 for (int i = 1;i &lt;= n;i++) {
-for (int j = V;j &gt;= w[i];j--) {
-dp[j] = max(dp[j],dp[j - w[i]] + val[i]);
-}
+  for (int j = V;j &gt;= w[i];j--) {
+    dp[j] = max(dp[j],dp[j - w[i]] + val[i]);
+  }
 }
 cout &lt;&lt; dp[V] &lt;&lt; endl;
               </code></pre>
@@ -696,9 +696,9 @@ cout &lt;&lt; dp[V] &lt;&lt; endl;
               <pre><code>
 vector&lt;int&gt; dp(V + 1,0);
 for (int i = 1;i &lt;= n;i++) {
-for (int j = w[i];j &lt;= V;j++) {
-dp[j] = max(dp[j],dp[j - w[i]] + val[i]);
-}
+  for (int j = w[i];j &lt;= V;j++) {
+    dp[j] = max(dp[j],dp[j - w[i]] + val[i]);
+  }
 }
 cout &lt;&lt; dp[V] &lt;&lt; endl;
               </code></pre>
@@ -712,7 +712,7 @@ cout &lt;&lt; dp[V] &lt;&lt; endl;
 dp[0] = 0;
 dp[1] = cnt[1];
 for (int i = 2;i &lt;= Max;i++) {
-dp[i] = max(dp[i - 1],dp[i - 2] + cnt[i]);
+  dp[i] = max(dp[i - 1],dp[i - 2] + cnt[i]);
 }
 cout &lt;&lt; dp[Max] &lt;&lt; endl;
               </code></pre>
@@ -725,9 +725,9 @@ cout &lt;&lt; dp[Max] &lt;&lt; endl;
 // 例：每列选上、选下、不选，不能和上一列同一行相邻
 vector&lt;vector&lt;int&gt;&gt; dp(n + 1,vector&lt;int&gt;(3,0));
 for (int i = 1;i &lt;= n;i++) {
-dp[i][0] = max({dp[i - 1][0],dp[i - 1][1],dp[i - 1][2]});
-dp[i][1] = max(dp[i - 1][0],dp[i - 1][2]) + up[i];
-dp[i][2] = max(dp[i - 1][0],dp[i - 1][1]) + down[i];
+  dp[i][0] = max({dp[i - 1][0],dp[i - 1][1],dp[i - 1][2]});
+  dp[i][1] = max(dp[i - 1][0],dp[i - 1][2]) + up[i];
+  dp[i][2] = max(dp[i - 1][0],dp[i - 1][1]) + down[i];
 }
 cout &lt;&lt; max({dp[n][0],dp[n][1],dp[n][2]}) &lt;&lt; endl;
               </code></pre>
@@ -742,33 +742,33 @@ cout &lt;&lt; max({dp[n][0],dp[n][1],dp[n][2]}) &lt;&lt; endl;
 #include &lt;bits/stdc++.h&gt;
 using namespace std;
 int main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-vector&lt;int&gt; a(n + 1);
-for (int i = 1;i &lt;= n;i++) {
-cin &gt;&gt; a[i];
-a[i] %= m;
-}
-if (n &gt;= m) {
-cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
-return 0;
-}
-vector&lt;int&gt; dp(m,0);
-for (int i = 1;i &lt;= n;i++) {
-vector&lt;int&gt; ndp = dp;
-ndp[a[i]] = 1;
-for (int r = 0;r &lt; m;r++) {
-if (dp[r]) {
-ndp[(r + a[i]) % m] = 1;
-}
-}
-dp = ndp;
-}
-if (dp[0]) cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
-else cout &lt;&lt; &quot;NO&quot; &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  vector&lt;int&gt; a(n + 1);
+  for (int i = 1;i &lt;= n;i++) {
+    cin &gt;&gt; a[i];
+    a[i] %= m;
+  }
+  if (n &gt;= m) {
+    cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
+    return 0;
+  }
+  vector&lt;int&gt; dp(m,0);
+  for (int i = 1;i &lt;= n;i++) {
+    vector&lt;int&gt; ndp = dp;
+    ndp[a[i]] = 1;
+    for (int r = 0;r &lt; m;r++) {
+      if (dp[r]) {
+        ndp[(r + a[i]) % m] = 1;
+      }
+    }
+    dp = ndp;
+  }
+  if (dp[0]) cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
+  else cout &lt;&lt; &quot;NO&quot; &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -783,32 +783,32 @@ using namespace std;
 const int MAXM = 100000 + 10;
 bitset&lt;MAXM&gt; dp,maskBits;
 int main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,m;
-cin &gt;&gt; n &gt;&gt; m;
-for (int i = 0;i &lt; m;i++) {
-maskBits[i] = 1;
-}
-for (int i = 1;i &lt;= n;i++) {
-int x;
-cin &gt;&gt; x;
-int v = x % m;
-if (v == 0) {
-cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
-return 0;
-}
-bitset&lt;MAXM&gt; shifted = (dp &lt;&lt; v) | (dp &gt;&gt; (m - v));
-shifted &amp;= maskBits;
-dp |= shifted;
-dp[v] = 1;
-if (dp[0]) {
-cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
-return 0;
-}
-}
-cout &lt;&lt; &quot;NO&quot; &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,m;
+  cin &gt;&gt; n &gt;&gt; m;
+  for (int i = 0;i &lt; m;i++) {
+    maskBits[i] = 1;
+  }
+  for (int i = 1;i &lt;= n;i++) {
+    int x;
+    cin &gt;&gt; x;
+    int v = x % m;
+    if (v == 0) {
+      cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
+      return 0;
+    }
+    bitset&lt;MAXM&gt; shifted = (dp &lt;&lt; v) | (dp &gt;&gt; (m - v));
+    shifted &amp;= maskBits;
+    dp |= shifted;
+    dp[v] = 1;
+    if (dp[0]) {
+      cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
+      return 0;
+    }
+  }
+  cout &lt;&lt; &quot;NO&quot; &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -826,41 +826,41 @@ return 0;
 #include &lt;bits/stdc++.h&gt;
 using namespace std;
 int main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-string s,p;
-cin &gt;&gt; s &gt;&gt; p;
-int n = s.size();
-int m = p.size();
-vector&lt;int&gt; ne(m,0);
-for (int i = 1,j = 0;i &lt; m;i++) {
-while (j &gt; 0 &amp;&amp; p[i] != p[j]) {
-j = ne[j - 1];
-}
-if (p[i] == p[j]) {
-j++;
-}
-ne[i] = j;
-}
-vector&lt;int&gt; pos;
-for (int i = 0,j = 0;i &lt; n;i++) {
-while (j &gt; 0 &amp;&amp; s[i] != p[j]) {
-j = ne[j - 1];
-}
-if (s[i] == p[j]) {
-j++;
-}
-if (j == m) {
-pos.push_back(i - m + 1);
-j = ne[j - 1];
-}
-}
-cout &lt;&lt; pos.size() &lt;&lt; endl;
-for (int x : pos) {
-cout &lt;&lt; x &lt;&lt; &quot; &quot;;
-}
-cout &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  string s,p;
+  cin &gt;&gt; s &gt;&gt; p;
+  int n = s.size();
+  int m = p.size();
+  vector&lt;int&gt; ne(m,0);
+  for (int i = 1,j = 0;i &lt; m;i++) {
+    while (j &gt; 0 &amp;&amp; p[i] != p[j]) {
+      j = ne[j - 1];
+    }
+    if (p[i] == p[j]) {
+      j++;
+    }
+    ne[i] = j;
+  }
+  vector&lt;int&gt; pos;
+  for (int i = 0,j = 0;i &lt; n;i++) {
+    while (j &gt; 0 &amp;&amp; s[i] != p[j]) {
+      j = ne[j - 1];
+    }
+    if (s[i] == p[j]) {
+      j++;
+    }
+    if (j == m) {
+      pos.push_back(i - m + 1);
+      j = ne[j - 1];
+    }
+  }
+  cout &lt;&lt; pos.size() &lt;&lt; endl;
+  for (int x : pos) {
+    cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+  }
+  cout &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
@@ -880,58 +880,58 @@ int depth[N];
 int fa[N][LOG + 1];
 int distRoot[N];
 void dfs(int u,int father) {
-fa[u][0] = father;
-for (int i = 1;i &lt;= LOG;i++) {
-fa[u][i] = fa[fa[u][i - 1]][i - 1];
-}
-for (auto edge : g[u]) {
-int v = edge.first;
-int w = edge.second;
-if (v == father) continue;
-depth[v] = depth[u] + 1;
-distRoot[v] = distRoot[u] + w;
-dfs(v,u);
-}
+  fa[u][0] = father;
+  for (int i = 1;i &lt;= LOG;i++) {
+    fa[u][i] = fa[fa[u][i - 1]][i - 1];
+  }
+  for (auto edge : g[u]) {
+    int v = edge.first;
+    int w = edge.second;
+    if (v == father) continue;
+    depth[v] = depth[u] + 1;
+    distRoot[v] = distRoot[u] + w;
+    dfs(v,u);
+  }
 }
 int lca(int a,int b) {
-if (depth[a] &lt; depth[b]) swap(a,b);
-for (int i = LOG;i &gt;= 0;i--) {
-if (depth[fa[a][i]] &gt;= depth[b]) {
-a = fa[a][i];
-}
-}
-if (a == b) return a;
-for (int i = LOG;i &gt;= 0;i--) {
-if (fa[a][i] != fa[b][i]) {
-a = fa[a][i];
-b = fa[b][i];
-}
-}
-return fa[a][0];
+  if (depth[a] &lt; depth[b]) swap(a,b);
+  for (int i = LOG;i &gt;= 0;i--) {
+    if (depth[fa[a][i]] &gt;= depth[b]) {
+      a = fa[a][i];
+    }
+  }
+  if (a == b) return a;
+  for (int i = LOG;i &gt;= 0;i--) {
+    if (fa[a][i] != fa[b][i]) {
+      a = fa[a][i];
+      b = fa[b][i];
+    }
+  }
+  return fa[a][0];
 }
 int getDist(int a,int b) {
-int c = lca(a,b);
-return distRoot[a] + distRoot[b] - 2 * distRoot[c];
+  int c = lca(a,b);
+  return distRoot[a] + distRoot[b] - 2 * distRoot[c];
 }
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-int n,q;
-cin &gt;&gt; n &gt;&gt; q;
-for (int i = 1;i &lt; n;i++) {
-int u,v,w;
-cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
-g[u].push_back({v,w});
-g[v].push_back({u,w});
-}
-depth[1] = 1;
-dfs(1,0);
-while (q--) {
-int a,b;
-cin &gt;&gt; a &gt;&gt; b;
-cout &lt;&lt; lca(a,b) &lt;&lt; &quot; &quot; &lt;&lt; getDist(a,b) &lt;&lt; endl;
-}
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n,q;
+  cin &gt;&gt; n &gt;&gt; q;
+  for (int i = 1;i &lt; n;i++) {
+    int u,v,w;
+    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+    g[u].push_back({v,w});
+    g[v].push_back({u,w});
+  }
+  depth[1] = 1;
+  dfs(1,0);
+  while (q--) {
+    int a,b;
+    cin &gt;&gt; a &gt;&gt; b;
+    cout &lt;&lt; lca(a,b) &lt;&lt; &quot; &quot; &lt;&lt; getDist(a,b) &lt;&lt; endl;
+  }
+  return 0;
 }
               </code></pre>
             </article>
@@ -940,28 +940,28 @@ return 0;
               <p><strong>适用：</strong>gcd、快速幂、取模、质数筛。省赛签到和中低档数论常用。</p>
               <pre><code>
 int qpow(int a,int b,int mod) {
-int res = 1 % mod;
-while (b) {
-if (b &amp; 1) res = res * a % mod;
-a = a * a % mod;
-b &gt;&gt;= 1;
-}
-return res;
+  int res = 1 % mod;
+  while (b) {
+    if (b &amp; 1) res = res * a % mod;
+    a = a * a % mod;
+    b &gt;&gt;= 1;
+  }
+  return res;
 }
 int gcd(int a,int b) {
-return b == 0 ? a : gcd(b,a % b);
+  return b == 0 ? a : gcd(b,a % b);
 }
 vector&lt;int&gt; primes;
 bool st[N];
 void get_primes(int n) {
-for (int i = 2;i &lt;= n;i++) {
-if (!st[i]) primes.push_back(i);
-for (int p : primes) {
-if (i * p &gt; n) break;
-st[i * p] = true;
-if (i % p == 0) break;
-}
-}
+  for (int i = 2;i &lt;= n;i++) {
+    if (!st[i]) primes.push_back(i);
+    for (int p : primes) {
+      if (i * p &gt; n) break;
+      st[i * p] = true;
+      if (i % p == 0) break;
+    }
+  }
 }
               </code></pre>
             </article>
@@ -978,40 +978,40 @@ const int N = 1e6 + 10;
 const int MOD = 1e9 + 7;
 int fac[N],invFac[N];
 int qpow(int a,int b) {
-int res = 1;
-while (b) {
-if (b &amp; 1) res = res * a % MOD;
-a = a * a % MOD;
-b &gt;&gt;= 1;
-}
-return res;
+  int res = 1;
+  while (b) {
+    if (b &amp; 1) res = res * a % MOD;
+    a = a * a % MOD;
+    b &gt;&gt;= 1;
+  }
+  return res;
 }
 void initComb(int n) {
-fac[0] = 1;
-for (int i = 1;i &lt;= n;i++) {
-fac[i] = fac[i - 1] * i % MOD;
-}
-invFac[n] = qpow(fac[n],MOD - 2);
-for (int i = n - 1;i &gt;= 0;i--) {
-invFac[i] = invFac[i + 1] * (i + 1) % MOD;
-}
+  fac[0] = 1;
+  for (int i = 1;i &lt;= n;i++) {
+    fac[i] = fac[i - 1] * i % MOD;
+  }
+  invFac[n] = qpow(fac[n],MOD - 2);
+  for (int i = n - 1;i &gt;= 0;i--) {
+    invFac[i] = invFac[i + 1] * (i + 1) % MOD;
+  }
 }
 int C(int n,int k) {
-if (k &lt; 0 || k &gt; n) return 0;
-return fac[n] * invFac[k] % MOD * invFac[n - k] % MOD;
+  if (k &lt; 0 || k &gt; n) return 0;
+  return fac[n] * invFac[k] % MOD * invFac[n - k] % MOD;
 }
 int A(int n,int k) {
-if (k &lt; 0 || k &gt; n) return 0;
-return fac[n] * invFac[n - k] % MOD;
+  if (k &lt; 0 || k &gt; n) return 0;
+  return fac[n] * invFac[n - k] % MOD;
 }
 signed main() {
-ios::sync_with_stdio(false);
-cin.tie(nullptr);
-initComb(1000000);
-int n,k;
-cin &gt;&gt; n &gt;&gt; k;
-cout &lt;&lt; C(n,k) &lt;&lt; &quot; &quot; &lt;&lt; A(n,k) &lt;&lt; endl;
-return 0;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  initComb(1000000);
+  int n,k;
+  cin &gt;&gt; n &gt;&gt; k;
+  cout &lt;&lt; C(n,k) &lt;&lt; &quot; &quot; &lt;&lt; A(n,k) &lt;&lt; endl;
+  return 0;
 }
               </code></pre>
             </article>
