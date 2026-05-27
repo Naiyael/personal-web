@@ -15,9 +15,6 @@ const musicArtist = document.querySelector("#music-artist");
 const musicProgressBar = document.querySelector("#music-progress-bar");
 const themeToggleButton = document.querySelector("#theme-toggle");
 const skillGrid = document.querySelector(".skill-grid");
-const skillCards = skillGrid ? [...skillGrid.querySelectorAll("article")] : [];
-const skillPrevButton = document.querySelector("#skill-prev");
-const skillNextButton = document.querySelector("#skill-next");
 
 const posts = [
   {
@@ -45,9 +42,8 @@ let width = 0;
 let height = 0;
 let particles = [];
 let pointer = { x: 0, y: 0, px: 0, py: 0, active: false, moved: false };
-let skillIndex = 0;
-let skillVisibleCount = 4;
-let skillAutoScrollTimer = null;
+let skillScrollOffset = 0;
+let skillMarqueeFrame = null;
 
 const particleColors = ["#4f74ff", "#25c7d9", "#ff8a4c", "#28c78a"];
 
@@ -251,77 +247,38 @@ function handlePointerMove(event) {
   if (pointer.active) emitTrail(pointer.x, pointer.y, pointer.px, pointer.py);
 }
 
-function getSkillVisibleCount() {
-  if (window.innerWidth <= 720) return 1;
-  if (window.innerWidth <= 1040) return 2;
-  return 4;
+function getSkillScrollSpeed() {
+  if (window.innerWidth <= 720) return 0.32;
+  if (window.innerWidth <= 1040) return 0.4;
+  return 0.5;
 }
 
-function syncSkillCarousel(animate = true) {
-  if (!skillGrid || skillCards.length === 0) return;
-  skillVisibleCount = Math.min(getSkillVisibleCount(), skillCards.length);
-  const maxIndex = Math.max(skillCards.length - skillVisibleCount, 0);
-  if (skillIndex > maxIndex) skillIndex = 0;
+function syncSkillMarquee() {
+  if (!skillGrid || skillGrid.children.length === 0) return;
+  const firstCard = skillGrid.firstElementChild;
+  if (!firstCard) return;
 
-  const cardWidth = skillCards[0].getBoundingClientRect().width;
   const gap = parseFloat(window.getComputedStyle(skillGrid).gap || "0");
-  const offset = maxIndex === 0 ? 0 : skillIndex * (cardWidth + gap);
+  const firstCardWidth = firstCard.getBoundingClientRect().width + gap;
 
-  if (!animate) {
-    skillGrid.style.transition = "none";
-    skillGrid.style.transform = `translateX(-${offset}px)`;
-    skillGrid.offsetHeight;
-    skillGrid.style.transition = "";
-    return;
+  skillScrollOffset += getSkillScrollSpeed();
+  while (skillScrollOffset >= firstCardWidth && skillGrid.firstElementChild) {
+    skillScrollOffset -= firstCardWidth;
+    skillGrid.appendChild(skillGrid.firstElementChild);
   }
 
-  skillGrid.style.transform = `translateX(-${offset}px)`;
+  skillGrid.style.transform = `translateX(-${skillScrollOffset}px)`;
+  skillMarqueeFrame = window.requestAnimationFrame(syncSkillMarquee);
 }
 
-function moveSkillCarousel(direction = 1) {
-  if (!skillGrid || skillCards.length === 0) return;
-  const maxIndex = Math.max(skillCards.length - skillVisibleCount, 0);
-  if (maxIndex === 0) {
-    skillIndex = 0;
-    syncSkillCarousel();
-    return;
+function initSkillMarquee() {
+  if (!skillGrid || skillGrid.children.length === 0) return;
+  skillScrollOffset = 0;
+  skillGrid.style.transform = "translateX(0)";
+  if (skillMarqueeFrame) {
+    window.cancelAnimationFrame(skillMarqueeFrame);
   }
-  skillIndex = (skillIndex + direction + maxIndex + 1) % (maxIndex + 1);
-  syncSkillCarousel();
-}
-
-function stopSkillAutoScroll() {
-  if (skillAutoScrollTimer) {
-    window.clearInterval(skillAutoScrollTimer);
-    skillAutoScrollTimer = null;
-  }
-}
-
-function startSkillAutoScroll() {
-  if (!skillGrid || skillCards.length <= getSkillVisibleCount()) return;
-  stopSkillAutoScroll();
-  skillAutoScrollTimer = window.setInterval(() => {
-    moveSkillCarousel(1);
-  }, 3200);
-}
-
-function initSkillCarousel() {
-  if (!skillGrid || skillCards.length === 0) return;
-
-  syncSkillCarousel(false);
-  skillPrevButton?.addEventListener("click", () => {
-    moveSkillCarousel(-1);
-    startSkillAutoScroll();
-  });
-  skillNextButton?.addEventListener("click", () => {
-    moveSkillCarousel(1);
-    startSkillAutoScroll();
-  });
-  skillGrid.addEventListener("pointerenter", stopSkillAutoScroll);
-  skillGrid.addEventListener("pointerleave", startSkillAutoScroll);
-  skillGrid.addEventListener("focusin", stopSkillAutoScroll);
-  skillGrid.addEventListener("focusout", startSkillAutoScroll);
-  startSkillAutoScroll();
+  skillMarqueeFrame = window.requestAnimationFrame(syncSkillMarquee);
 }
 
 topicButtons.forEach((button) => {
@@ -355,8 +312,7 @@ window.addEventListener("resize", () => {
   resizeCanvas();
   particles = [];
   seedAmbientParticles();
-  syncSkillCarousel(false);
-  startSkillAutoScroll();
+  initSkillMarquee();
 });
 window.addEventListener("pointerdown", (event) => {
   pointer.active = true;
@@ -373,7 +329,7 @@ window.addEventListener("pointercancel", () => {
 });
 
 initTheme();
-initSkillCarousel();
+initSkillMarquee();
 renderPosts();
 loadTrack(0);
 resizeCanvas();

@@ -484,39 +484,14 @@ h3 {
 }
 
 .skill-controls {
-  display: flex;
-  gap: 10px;
-}
-
-.skill-nav {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 14px;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.78);
-  cursor: pointer;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease;
-}
-
-.skill-nav:hover {
-  transform: translateY(-2px);
-  border-color: var(--blue);
-  background: rgba(79, 116, 255, 0.08);
+  display: none;
 }
 
 .skill-grid {
   display: flex;
   gap: 12px;
+  align-items: stretch;
   will-change: transform;
-  transition: transform 0.45s ease;
 }
 
 .skill-grid article {
