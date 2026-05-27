@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hadoop">
-  <rect width="64" height="64" rx="16" fill="#ffcf33"/>
-  <path fill="#202635" d="M18 38c0-8 6-14 14-14s14 6 14 14v8H18v-8Z"/>
-  <circle cx="26" cy="34" r="3" fill="#fff"/>
-  <circle cx="38" cy="34" r="3" fill="#fff"/>
-  <path fill="#fff" d="M20 25c-3-5-2-9 2-11 4 2 6 6 5 11h-7Zm17 0c-1-5 1-9 5-11 4 2 5 6 2 11h-7Z"/>
-  <path fill="#202635" d="M28 41h8c-1 3-3 5-4 5s-3-2-4-5Z"/>
-  <path fill="#fff" d="M12 45h40v5H12z"/>
-</svg>
