@@ -25,7 +25,7 @@ const posts = [
       "把省赛前高频会用到的 C++ 模板按图论、数据结构、DP、字符串和基础数学整理成一篇可直接检索的模板册。",
     tags: ["算法", "C++", "ICPC"],
     cover:
-      "url('assets/icpc-burger.jpg') center/112px auto no-repeat, linear-gradient(135deg, #2558c2 0%, #f2bf31 52%, #d53f35 100%)",
+      "url('assets/icpc-burger.jpg') center center / cover no-repeat",
     pinned: true,
     url: "posts/icpc-provincial-templates.html",
   },
@@ -37,7 +37,7 @@ const posts = [
       "整理线性 DP、状态机 DP、计数 DP 和背包 DP 的常见模型，按题目复盘状态定义、转移和易错点。",
     tags: ["算法", "C++", "DP"],
     cover:
-      "linear-gradient(135deg, #123456 0%, #2563eb 48%, #12b981 100%)",
+      "url('assets/icpc-burger.jpg') center center / cover no-repeat",
     pinned: true,
     url: "posts/linear-backpack-dp-review.html",
   },
