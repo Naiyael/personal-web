@@ -18,6 +18,18 @@ const skillGrid = document.querySelector(".skill-grid");
 
 const posts = [
   {
+    title: "The 2023 ICPC Asia Nanjing Regional Contest",
+    date: "2026-05-31",
+    updated: "2026-05-31",
+    summary:
+      "把 2023 南京区域赛里 Primitive Root、Knapsack、Counter 三篇 Markdown 题解合并成一篇比赛回顾文章。",
+    tags: ["ICPC", "算法", "C++"],
+    cover:
+      "url('assets/icpc-burger.jpg') center center / cover no-repeat",
+    pinned: true,
+    url: "posts/2023-icpc-asia-nanjing-regional-contest.html",
+  },
+  {
     title: "ICPC省赛常用模板整理",
     date: "2026-05-27",
     updated: "2026-05-27",

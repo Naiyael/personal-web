@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Notes for The 2023 ICPC Asia Nanjing Regional Contest, including Primitive Root, Knapsack, and Counter with C++ snippets."
+    />
+    <title>The 2023 ICPC Asia Nanjing Regional Contest | Naiyael Trace</title>
+    <link rel="icon" type="image/jpeg" href="../assets/icpc-burger.jpg" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Back to home">
+        <img class="brand-avatar" src="../assets/avatar.jpg" alt="Naiyael avatar" />
+        <span>Naiyael Trace</span>
+      </a>
+      <nav class="site-nav" aria-label="Article navigation">
+        <a href="../index.html#posts">Posts</a>
+        <a href="../index.html#topics">Topics</a>
+        <a href="../index.html#about">About</a>
+      </nav>
+    </header>
+
+    <main class="article-shell">
+      <article class="article-page">
+        <header class="article-hero">
+          <p class="eyebrow">ICPC / REGIONAL / C++</p>
+          <h1>The 2023 ICPC Asia Nanjing Regional Contest</h1>
+          <p>This page collects three problem notes from the 2023 Asia Nanjing Regional and keeps the model, derivation, pitfalls, and code snippet in one contest recap.</p>
+          <div class="article-meta">
+            <span>Updated 2026-05-31</span>
+            <span># ICPC</span>
+            <span># ??</span>
+            <span># C++</span>
+          </div>
+          <div class="article-banner">
+            <img src="../assets/icpc-burger.jpg" alt="ICPC contest icon" />
+            <div>
+              <strong>Regional contest notes</strong>
+              <p>Built from the Markdown files inside your archive and merged into a single article page for browsing and review.</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="article-section">
+          <h2>Included Problems</h2>
+          <div class="contest-stack">
+            <article class="contest-card">
+              <h3>Primitive Root</h3>
+              <div class="contest-meta">
+                <span># ICPC</span>
+                <span># ??</span>
+                <span># C++</span>
+              </div>
+              <a class="contest-link" href="https://codeforces.com/gym/104821/problem/C" target="_blank" rel="noreferrer">Problem Link</a>
+              <h4>核心思路</h4>
+              <p>把条件 $g \oplus (P-1) \equiv 1 \pmod P$ 改写后，可以把所有候选数表示成 $(kP+1)\oplus(P-1)$ 的形式。关键不在于枚举全部 $k$，而在于利用异或的值域夹逼，证明除了中间常数个 $k$ 之外，其余整段都可以直接整块计数。</p>
+              <h4>算法与数据结构</h4>
+              <p>- **主要算法**：数学变形 + 异或范围估计
+- **时间复杂度**：$O(1)$，每组数据只检查常数个候选
+- **空间复杂度**：$O(1)$</p>
+              <h4>核心推导 / 状态转移</h4>
+              <p>设</p>
+              <p>$$
+g \oplus (P-1) = kP + 1 \quad (k \ge 0)
+$$</p>
+              <p>由于异或是可逆的，因此：</p>
+              <p>$$
+g = (kP + 1) \oplus (P-1)
+$$</p>
+              <p>问题就变成统计有多少个 $k$ 满足：</p>
+              <p>$$
+(kP + 1) \oplus (P-1) \le m
+$$</p>
+              <p>这里用到异或的经典不等式：</p>
+              <p>$$
+a-b \le a \oplus b \le a+b
+$$</p>
+              <p>令 $a=kP+1,\ b=P-1$，则有：</p>
+              <p>$$
+(k-1)P + 2 \le (kP + 1) \oplus (P-1) \le (k+1)P
+$$</p>
+              <p>于是：</p>
+              <p>1. 当 $0 \le k \le \left\lfloor \dfrac{m}{P} \right\rfloor - 1$ 时，</p>
+              <p>$$
+(kP+1)\oplus(P-1) \le (k+1)P \le m
+$$</p>
+              <p>这些 $k$ 一定全部合法。</p>
+              <p>2. 当 $k \ge \left\lceil \dfrac{m}{P} \right\rceil + 1$ 时，</p>
+              <p>$$
+(kP+1)\oplus(P-1) \ge (k-1)P + 2 &gt; m
+$$</p>
+              <p>这些 $k$ 一定全部不合法。</p>
+              <p>所以真正不确定的只剩下中间常数个位置，代码只检查：</p>
+              <p>$$
+k=\left\lfloor \frac{m}{P} \right\rfloor,\quad \left\lfloor \frac{m}{P} \right\rfloor + 1
+$$</p>
+              <p>前面那整段合法解个数直接是：</p>
+              <p>$$
+\left\lfloor \frac{m}{P} \right\rfloor
+$$</p>
+              <h4>避坑指南 (Edge Cases)</h4>
+              <p>不要暴力枚举 $k$，因为 $P,m$ 都可达 $10^{18}$。
+这里统计的是 $g \le m$，不是 $kP+1 \le m$，二者不能直接等价。
+`P=2` 仍然适用这套推导，代码无需额外特判。</p>
+              <h4>核心代码片段</h4>
+              <pre><code>
+long long ans = m / p;     // 前面整段一定合法
+long long k1 = m / p;
+
+if (((k1 * p + 1) ^ (p - 1)) &lt;= m) {
+  ans++;
+}
+
+long long k2 = m / p + 1; // 只需再检查相邻的常数个 k
+if (((k2 * p + 1) ^ (p - 1)) &lt;= m) {
+  ans++;
+}
+
+cout &lt;&lt; ans &lt;&lt; &#x27;\n&#x27;;
+              </code></pre>
+            </article>
+            <article class="contest-card">
+              <h3>Knapsack</h3>
+              <div class="contest-meta">
+                <span># ICPC</span>
+                <span># ??</span>
+                <span># C++</span>
+              </div>
+              <a class="contest-link" href="https://codeforces.com/gym/104821/problem/G" target="_blank" rel="noreferrer">Problem Link</a>
+              <h4>核心思路</h4>
+              <p>这题比普通背包多了一个“任选 $k$ 件免费拿”的机制。破题点在于先证明最优方案一定存在一个重量分界点：分界点左边负责挑免费物品，分界点右边负责正常做背包；于是原题被拆成“前缀维护前 $k$ 大价值”和“后缀做 $0/1$ 背包”两部分。</p>
+              <h4>算法与数据结构</h4>
+              <p>- **主要算法**：排序 + 优先队列维护前缀前 $k$ 大 + 后缀 $0/1$ 背包
+- **时间复杂度**：$O(nW + n \log k)$，后缀背包主导
+- **空间复杂度**：$O(W + n)$</p>
+              <h4>核心推导 / 状态转移</h4>
+              <p>先按重量 $w_i$ 从大到小排序。设某件物品 $a$ 被免费拿走，某件物品 $b$ 被付费买下，则必有：</p>
+              <p>$$
+w_a \ge w_b
+$$</p>
+              <p>否则交换二者的身份不会更差。</p>
+              <p>同时，若 $a$ 被免费拿走而 $b$ 完全没选，则必有：</p>
+              <p>$$
+v_a \ge v_b
+$$</p>
+              <p>否则把免费名额从 $a$ 换成 $b$ 更优。</p>
+              <p>由此推出：一定存在一个分界点 $M$，使得：</p>
+              <p>- 前缀 $[1,M]$ 中价值前 $k$ 大的物品被免费拿走
+- 后缀 $(M,n]$ 中的一部分物品按背包容量 $W$ 正常购买</p>
+              <p>### 1. 后缀背包</p>
+              <p>设 `dp[j]` 表示当前后缀中花费不超过 $j$ 时的最大总价值，则标准转移为：</p>
+              <p>$$
+dp[j] = \max(dp[j],\ dp[j-w_i] + v_i)
+$$</p>
+              <p>代码从后往前扫，记录：</p>
+              <p>$$
+a[i] = \text{仅使用后缀 }(i,n]\text{ 做背包时的最优值}
+$$</p>
+              <p>### 2. 前缀免费物品</p>
+              <p>若当前把第 $i$ 件视作“最后一件免费物品”，那么其余免费物品只能从前缀 $[1,i-1]$ 里选，并且应当取其中价值最大的 $k-1$ 件。用一个小根堆维护这 $k-1$ 大值之和 `sum` 即可。</p>
+              <p>因此以 $i$ 为最后免费物品时，答案候选为：</p>
+              <p>$$
+\text{sum} + v_i + a[i]
+$$</p>
+              <p>再额外补一个“所有选择都来自免费物品”的情况，也就是直接取全局前 $\min(k,n)$ 大价值。</p>
+              <h4>避坑指南 (Edge Cases)</h4>
+              <p>分界点不是“前缀全拿”，而是“前缀里只拿价值前 $k$ 大作为免费物品”。
+后缀背包数组 `a[i]` 必须在加入第 $i$ 件之前记录，否则会把本应免费拿的物品错误地放进付费背包里。
+`k=0` 时退化成普通 $0/1$ 背包，代码单独特判。</p>
+              <h4>核心代码片段</h4>
+              <pre><code>
+for (int i = n; i &gt;= 1; i--) {
+  a[i] = dp[w]; // 后缀 (i, n] 的最优背包值
+  for (int j = w; j &gt;= gems[i].first; j--) {
+    dp[j] = max(dp[j], dp[j - gems[i].first] + gems[i].second);
+  }
+}
+
+for (int i = 1; i &lt;= n; i++) {
+  if (i &gt;= k) {
+    ans = max(ans, sum + gems[i].second + a[i]);
+  }
+  pq.push(gems[i].second);
+  sum += gems[i].second;
+  if (pq.size() &gt; k - 1) {
+    sum -= pq.top();
+    pq.pop();
+  }
+}
+              </code></pre>
+            </article>
+            <article class="contest-card">
+              <h3>Counter</h3>
+              <div class="contest-meta">
+                <span># ICPC</span>
+                <span># ??</span>
+                <span># C++</span>
+              </div>
+              <a class="contest-link" href="https://codeforces.com/gym/104821/problem/I" target="_blank" rel="noreferrer">Problem Link</a>
+              <h4>核心思路</h4>
+              <p>一次 `c` 操作会把计数器直接清零，所以若在第 $a_i$ 次操作后数值为 $b_i$，那么最近一次清零的位置其实已经被这个条件强烈约束了。把所有已知条件按时间排序后，只需要逐段判断相邻两条记录之间是否存在合法操作序列。</p>
+              <h4>算法与数据结构</h4>
+              <p>- **主要算法**：排序 + 相邻约束判定
+- **时间复杂度**：$O(m \log m)$，主要是排序
+- **空间复杂度**：$O(m)$</p>
+              <h4>核心推导 / 状态转移</h4>
+              <p>设相邻两条已知条件为：</p>
+              <p>$$
+(x_1, v_1),\quad (x_2, v_2),\quad x_1 &lt; x_2
+$$</p>
+              <p>中间一共有：</p>
+              <p>$$
+\text{need} = x_2 - x_1
+$$</p>
+              <p>次操作。</p>
+              <p>从 $(x_1,v_1)$ 走到 $(x_2,v_2)$，只有两种可能：</p>
+              <p>### 1. 中间没有清零</p>
+              <p>那么只能一直按 `+`，因此必须满足：</p>
+              <p>$$
+v_2 = v_1 + \text{need}
+$$</p>
+              <p>### 2. 中间至少有一次清零</p>
+              <p>设最后一次清零发生在区间内部某一步，那么从那之后只能连续按 `+` 到结尾，因此结尾值只取决于“清零后剩了几步”。</p>
+              <p>因为最后一次清零不能发生在第 $x_2$ 步之后，所以最终值最多是：</p>
+              <p>$$
+\text{need} - 1
+$$</p>
+              <p>也就是说，只要：</p>
+              <p>$$
+v_2 \le \text{need} - 1
+$$</p>
+              <p>就总能把最后一次清零安排在第 $x_2 - v_2$ 步，从而构造出合法方案。</p>
+              <p>因此每一段只需检查：</p>
+              <p>$$
+v_2 = v_1 + \text{need}
+\quad \text{或} \quad
+v_2 \le \text{need} - 1
+$$</p>
+              <p>全部区间都合法，整组数据就合法。代码把初始状态 $(0,0)$ 也当作一条已知条件一起判。</p>
+              <h4>避坑指南 (Edge Cases)</h4>
+              <p>若只判断 `v_2 &lt;= need` 会错，因为一旦中间发生过清零，最后一次清零至少要占掉一步，所以最大只能到 `need - 1`。
+必须把初始状态 $(0,0)$ 插进去，否则第一段约束会漏判。
+题目里的总操作次数 $n$ 很大，但判定只依赖已知条件之间的相对关系，不需要真的模拟长度为 $n$ 的序列。</p>
+              <h4>核心代码片段</h4>
+              <pre><code>
+sort(a.begin(), a.end());
+
+for (int i = 1; i &lt;= m; i++) {
+  int need = a[i].first - a[i - 1].first;
+  int cnt1 = a[i - 1].second;
+  int cnt2 = a[i].second;
+
+  if (cnt2 == cnt1 + need) continue;   // 中间没有清零
+  if (cnt2 &lt;= need - 1) continue;      // 中间至少一次清零
+
+  flag = false;
+  break;
+}
+              </code></pre>
+            </article>
+          </div>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>
