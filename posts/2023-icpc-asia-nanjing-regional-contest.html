@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Notes for The 2023 ICPC Asia Nanjing Regional Contest, including Primitive Root, Knapsack, and Counter with C++ snippets."
+      content="Selected solutions for The 2023 ICPC Asia Nanjing Regional Contest, including Primitive Root, Knapsack, and Counter."
     />
     <title>The 2023 ICPC Asia Nanjing Regional Contest | Naiyael Trace</title>
     <link rel="icon" type="image/jpeg" href="../assets/icpc-burger.jpg" />
@@ -29,18 +29,18 @@
         <header class="article-hero">
           <p class="eyebrow">ICPC / REGIONAL / C++</p>
           <h1>The 2023 ICPC Asia Nanjing Regional Contest</h1>
-          <p>This page collects three problem notes from the 2023 Asia Nanjing Regional and keeps the model, derivation, pitfalls, and code snippet in one contest recap.</p>
+          <p>A compact recap page for three selected problems from the Nanjing Regional archive.</p>
           <div class="article-meta">
             <span>Updated 2026-05-31</span>
             <span># ICPC</span>
-            <span># ??</span>
+            <span># Algorithm</span>
             <span># C++</span>
           </div>
           <div class="article-banner">
             <img src="../assets/icpc-burger.jpg" alt="ICPC contest icon" />
             <div>
-              <strong>Regional contest notes</strong>
-              <p>Built from the Markdown files inside your archive and merged into a single article page for browsing and review.</p>
+              <strong>Selected solutions</strong>
+              <p>Primitive Root, Knapsack, and Counter are merged into one clean review page with key idea, derivation, pitfalls, and code.</p>
             </div>
           </div>
         </header>
@@ -52,129 +52,78 @@
               <h3>Primitive Root</h3>
               <div class="contest-meta">
                 <span># ICPC</span>
-                <span># ??</span>
+                <span># Algorithm</span>
                 <span># C++</span>
               </div>
               <a class="contest-link" href="https://codeforces.com/gym/104821/problem/C" target="_blank" rel="noreferrer">Problem Link</a>
-              <h4>核心思路</h4>
-              <p>把条件 $g \oplus (P-1) \equiv 1 \pmod P$ 改写后，可以把所有候选数表示成 $(kP+1)\oplus(P-1)$ 的形式。关键不在于枚举全部 $k$，而在于利用异或的值域夹逼，证明除了中间常数个 $k$ 之外，其余整段都可以直接整块计数。</p>
-              <h4>算法与数据结构</h4>
-              <p>- **主要算法**：数学变形 + 异或范围估计
-- **时间复杂度**：$O(1)$，每组数据只检查常数个候选
-- **空间复杂度**：$O(1)$</p>
-              <h4>核心推导 / 状态转移</h4>
-              <p>设</p>
-              <p>$$
-g \oplus (P-1) = kP + 1 \quad (k \ge 0)
-$$</p>
-              <p>由于异或是可逆的，因此：</p>
-              <p>$$
-g = (kP + 1) \oplus (P-1)
-$$</p>
-              <p>问题就变成统计有多少个 $k$ 满足：</p>
-              <p>$$
-(kP + 1) \oplus (P-1) \le m
-$$</p>
-              <p>这里用到异或的经典不等式：</p>
-              <p>$$
-a-b \le a \oplus b \le a+b
-$$</p>
-              <p>令 $a=kP+1,\ b=P-1$，则有：</p>
-              <p>$$
-(k-1)P + 2 \le (kP + 1) \oplus (P-1) \le (k+1)P
-$$</p>
-              <p>于是：</p>
-              <p>1. 当 $0 \le k \le \left\lfloor \dfrac{m}{P} \right\rfloor - 1$ 时，</p>
-              <p>$$
-(kP+1)\oplus(P-1) \le (k+1)P \le m
-$$</p>
-              <p>这些 $k$ 一定全部合法。</p>
-              <p>2. 当 $k \ge \left\lceil \dfrac{m}{P} \right\rceil + 1$ 时，</p>
-              <p>$$
-(kP+1)\oplus(P-1) \ge (k-1)P + 2 &gt; m
-$$</p>
-              <p>这些 $k$ 一定全部不合法。</p>
-              <p>所以真正不确定的只剩下中间常数个位置，代码只检查：</p>
-              <p>$$
-k=\left\lfloor \frac{m}{P} \right\rfloor,\quad \left\lfloor \frac{m}{P} \right\rfloor + 1
-$$</p>
-              <p>前面那整段合法解个数直接是：</p>
-              <p>$$
-\left\lfloor \frac{m}{P} \right\rfloor
-$$</p>
-              <h4>避坑指南 (Edge Cases)</h4>
-              <p>不要暴力枚举 $k$，因为 $P,m$ 都可达 $10^{18}$。
-这里统计的是 $g \le m$，不是 $kP+1 \le m$，二者不能直接等价。
-`P=2` 仍然适用这套推导，代码无需额外特判。</p>
-              <h4>核心代码片段</h4>
-              <pre><code>
-long long ans = m / p;     // 前面整段一定合法
+              <h4>Core Idea</h4>
+              <p>Rewrite the condition into the form <code>g = (kP + 1) xor (P - 1)</code>. The point is not to enumerate all <code>k</code>, but to use bounds of xor so that only a constant number of boundary candidates need to be checked.</p>
+              <h4>Algorithm and Complexity</h4>
+              <ul>
+                <li>Math transformation</li>
+                <li>Xor range bounding</li>
+                <li>O(1) time, O(1) space</li>
+              </ul>
+              <h4>Derivation</h4>
+              <ol>
+                <li>Let <code>g xor (P - 1) = kP + 1</code>, then <code>g = (kP + 1) xor (P - 1)</code>.</li>
+                <li>Use the inequality <code>a - b &lt;= a xor b &lt;= a + b</code> with <code>a = kP + 1</code> and <code>b = P - 1</code>.</li>
+                <li>This gives a full valid prefix, a full invalid suffix, and only two boundary values of <code>k</code> that need direct checking.</li>
+              </ol>
+              <h4>Pitfalls</h4>
+              <ul>
+                <li>Do not brute force <code>k</code>; both <code>P</code> and <code>m</code> can be very large.</li>
+                <li>The target is <code>g &lt;= m</code>, not <code>kP + 1 &lt;= m</code>.</li>
+                <li><code>P = 2</code> still follows the same reasoning.</li>
+              </ul>
+              <h4>Code Snippet</h4>
+              <pre><code>long long ans = m / p;     // The full prefix is always valid
 long long k1 = m / p;
 
 if (((k1 * p + 1) ^ (p - 1)) &lt;= m) {
   ans++;
 }
 
-long long k2 = m / p + 1; // 只需再检查相邻的常数个 k
+long long k2 = m / p + 1; // Check the neighboring boundary candidate
 if (((k2 * p + 1) ^ (p - 1)) &lt;= m) {
   ans++;
 }
 
-cout &lt;&lt; ans &lt;&lt; &#x27;\n&#x27;;
-              </code></pre>
+cout &lt;&lt; ans &lt;&lt; '\n';</code></pre>
             </article>
+
             <article class="contest-card">
               <h3>Knapsack</h3>
               <div class="contest-meta">
                 <span># ICPC</span>
-                <span># ??</span>
+                <span># Algorithm</span>
                 <span># C++</span>
               </div>
               <a class="contest-link" href="https://codeforces.com/gym/104821/problem/G" target="_blank" rel="noreferrer">Problem Link</a>
-              <h4>核心思路</h4>
-              <p>这题比普通背包多了一个“任选 $k$ 件免费拿”的机制。破题点在于先证明最优方案一定存在一个重量分界点：分界点左边负责挑免费物品，分界点右边负责正常做背包；于是原题被拆成“前缀维护前 $k$ 大价值”和“后缀做 $0/1$ 背包”两部分。</p>
-              <h4>算法与数据结构</h4>
-              <p>- **主要算法**：排序 + 优先队列维护前缀前 $k$ 大 + 后缀 $0/1$ 背包
-- **时间复杂度**：$O(nW + n \log k)$，后缀背包主导
-- **空间复杂度**：$O(W + n)$</p>
-              <h4>核心推导 / 状态转移</h4>
-              <p>先按重量 $w_i$ 从大到小排序。设某件物品 $a$ 被免费拿走，某件物品 $b$ 被付费买下，则必有：</p>
-              <p>$$
-w_a \ge w_b
-$$</p>
-              <p>否则交换二者的身份不会更差。</p>
-              <p>同时，若 $a$ 被免费拿走而 $b$ 完全没选，则必有：</p>
-              <p>$$
-v_a \ge v_b
-$$</p>
-              <p>否则把免费名额从 $a$ 换成 $b$ 更优。</p>
-              <p>由此推出：一定存在一个分界点 $M$，使得：</p>
-              <p>- 前缀 $[1,M]$ 中价值前 $k$ 大的物品被免费拿走
-- 后缀 $(M,n]$ 中的一部分物品按背包容量 $W$ 正常购买</p>
-              <p>### 1. 后缀背包</p>
-              <p>设 `dp[j]` 表示当前后缀中花费不超过 $j$ 时的最大总价值，则标准转移为：</p>
-              <p>$$
-dp[j] = \max(dp[j],\ dp[j-w_i] + v_i)
-$$</p>
-              <p>代码从后往前扫，记录：</p>
-              <p>$$
-a[i] = \text{仅使用后缀 }(i,n]\text{ 做背包时的最优值}
-$$</p>
-              <p>### 2. 前缀免费物品</p>
-              <p>若当前把第 $i$ 件视作“最后一件免费物品”，那么其余免费物品只能从前缀 $[1,i-1]$ 里选，并且应当取其中价值最大的 $k-1$ 件。用一个小根堆维护这 $k-1$ 大值之和 `sum` 即可。</p>
-              <p>因此以 $i$ 为最后免费物品时，答案候选为：</p>
-              <p>$$
-\text{sum} + v_i + a[i]
-$$</p>
-              <p>再额外补一个“所有选择都来自免费物品”的情况，也就是直接取全局前 $\min(k,n)$ 大价值。</p>
-              <h4>避坑指南 (Edge Cases)</h4>
-              <p>分界点不是“前缀全拿”，而是“前缀里只拿价值前 $k$ 大作为免费物品”。
-后缀背包数组 `a[i]` 必须在加入第 $i$ 件之前记录，否则会把本应免费拿的物品错误地放进付费背包里。
-`k=0` 时退化成普通 $0/1$ 背包，代码单独特判。</p>
-              <h4>核心代码片段</h4>
-              <pre><code>
-for (int i = n; i &gt;= 1; i--) {
-  a[i] = dp[w]; // 后缀 (i, n] 的最优背包值
+              <h4>Core Idea</h4>
+              <p>The free-pick mechanism can be separated from the paid knapsack part. After sorting by weight, the optimal solution has a split point: the prefix contributes free items, and the suffix contributes ordinary 0/1 knapsack transitions.</p>
+              <h4>Algorithm and Complexity</h4>
+              <ul>
+                <li>Sort by weight</li>
+                <li>Maintain the best prefix values with a min-heap</li>
+                <li>Run suffix 0/1 knapsack</li>
+                <li>O(nW + n log k) time, O(W + n) space</li>
+              </ul>
+              <h4>Derivation</h4>
+              <ol>
+                <li>Sort all gems by weight in descending order.</li>
+                <li>Build <code>a[i]</code> from the back, where <code>a[i]</code> means the best ordinary knapsack value using only suffix <code>(i, n]</code>.</li>
+                <li>Scan from left to right and use a heap to keep the best <code>k - 1</code> values in the prefix. Treat the current item as the last free one and combine prefix sum + current value + suffix answer.</li>
+              </ol>
+              <h4>Pitfalls</h4>
+              <ul>
+                <li>The split point does not mean “take the whole prefix for free”. Only the top-value free candidates matter.</li>
+                <li>Record <code>a[i]</code> before inserting item <code>i</code> into the suffix knapsack.</li>
+                <li>Watch the boundary when <code>k = 0</code>.</li>
+              </ul>
+              <h4>Code Snippet</h4>
+              <pre><code>for (int i = n; i &gt;= 1; i--) {
+  a[i] = dp[w];
   for (int j = w; j &gt;= gems[i].first; j--) {
     dp[j] = max(dp[j], dp[j - gems[i].first] + gems[i].second);
   }
@@ -190,77 +139,50 @@ for (int i = 1; i &lt;= n; i++) {
     sum -= pq.top();
     pq.pop();
   }
-}
-              </code></pre>
+}</code></pre>
             </article>
+
             <article class="contest-card">
               <h3>Counter</h3>
               <div class="contest-meta">
                 <span># ICPC</span>
-                <span># ??</span>
+                <span># Algorithm</span>
                 <span># C++</span>
               </div>
               <a class="contest-link" href="https://codeforces.com/gym/104821/problem/I" target="_blank" rel="noreferrer">Problem Link</a>
-              <h4>核心思路</h4>
-              <p>一次 `c` 操作会把计数器直接清零，所以若在第 $a_i$ 次操作后数值为 $b_i$，那么最近一次清零的位置其实已经被这个条件强烈约束了。把所有已知条件按时间排序后，只需要逐段判断相邻两条记录之间是否存在合法操作序列。</p>
-              <h4>算法与数据结构</h4>
-              <p>- **主要算法**：排序 + 相邻约束判定
-- **时间复杂度**：$O(m \log m)$，主要是排序
-- **空间复杂度**：$O(m)$</p>
-              <h4>核心推导 / 状态转移</h4>
-              <p>设相邻两条已知条件为：</p>
-              <p>$$
-(x_1, v_1),\quad (x_2, v_2),\quad x_1 &lt; x_2
-$$</p>
-              <p>中间一共有：</p>
-              <p>$$
-\text{need} = x_2 - x_1
-$$</p>
-              <p>次操作。</p>
-              <p>从 $(x_1,v_1)$ 走到 $(x_2,v_2)$，只有两种可能：</p>
-              <p>### 1. 中间没有清零</p>
-              <p>那么只能一直按 `+`，因此必须满足：</p>
-              <p>$$
-v_2 = v_1 + \text{need}
-$$</p>
-              <p>### 2. 中间至少有一次清零</p>
-              <p>设最后一次清零发生在区间内部某一步，那么从那之后只能连续按 `+` 到结尾，因此结尾值只取决于“清零后剩了几步”。</p>
-              <p>因为最后一次清零不能发生在第 $x_2$ 步之后，所以最终值最多是：</p>
-              <p>$$
-\text{need} - 1
-$$</p>
-              <p>也就是说，只要：</p>
-              <p>$$
-v_2 \le \text{need} - 1
-$$</p>
-              <p>就总能把最后一次清零安排在第 $x_2 - v_2$ 步，从而构造出合法方案。</p>
-              <p>因此每一段只需检查：</p>
-              <p>$$
-v_2 = v_1 + \text{need}
-\quad \text{或} \quad
-v_2 \le \text{need} - 1
-$$</p>
-              <p>全部区间都合法，整组数据就合法。代码把初始状态 $(0,0)$ 也当作一条已知条件一起判。</p>
-              <h4>避坑指南 (Edge Cases)</h4>
-              <p>若只判断 `v_2 &lt;= need` 会错，因为一旦中间发生过清零，最后一次清零至少要占掉一步，所以最大只能到 `need - 1`。
-必须把初始状态 $(0,0)$ 插进去，否则第一段约束会漏判。
-题目里的总操作次数 $n$ 很大，但判定只依赖已知条件之间的相对关系，不需要真的模拟长度为 $n$ 的序列。</p>
-              <h4>核心代码片段</h4>
-              <pre><code>
-sort(a.begin(), a.end());
+              <h4>Core Idea</h4>
+              <p>Each reset operation forces the later value pattern very hard. After sorting all known records by time, the problem reduces to checking whether every adjacent pair can be connected by some valid operation sequence.</p>
+              <h4>Algorithm and Complexity</h4>
+              <ul>
+                <li>Sort known observations</li>
+                <li>Check adjacent constraints only</li>
+                <li>O(m log m) time, O(m) space</li>
+              </ul>
+              <h4>Derivation</h4>
+              <ol>
+                <li>For adjacent records <code>(x1, v1)</code> and <code>(x2, v2)</code>, define <code>need = x2 - x1</code>.</li>
+                <li>If there is no reset in between, we must have <code>v2 = v1 + need</code>.</li>
+                <li>If there is at least one reset in between, then the last reset leaves at most <code>need - 1</code> increments to the end, so we need <code>v2 &lt;= need - 1</code>.</li>
+              </ol>
+              <h4>Pitfalls</h4>
+              <ul>
+                <li>It is not enough to check <code>v2 &lt;= need</code>; the reset itself consumes one step.</li>
+                <li>Insert the initial state <code>(0, 0)</code> before checking pairs.</li>
+                <li>No full simulation over all <code>n</code> operations is needed.</li>
+              </ul>
+              <h4>Code Snippet</h4>
+              <pre><code>sort(a.begin(), a.end());
 
 for (int i = 1; i &lt;= m; i++) {
   int need = a[i].first - a[i - 1].first;
   int cnt1 = a[i - 1].second;
   int cnt2 = a[i].second;
 
-  if (cnt2 == cnt1 + need) continue;   // 中间没有清零
-  if (cnt2 &lt;= need - 1) continue;      // 中间至少一次清零
-
+  if (cnt2 == cnt1 + need) continue;
+  if (cnt2 &lt;= need - 1) continue;
   flag = false;
   break;
-}
-              </code></pre>
+}</code></pre>
             </article>
           </div>
         </section>

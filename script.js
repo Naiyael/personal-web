@@ -22,7 +22,7 @@ const posts = [
     date: "2026-05-31",
     updated: "2026-05-31",
     summary:
-      "把 2023 南京区域赛里 Primitive Root、Knapsack、Counter 三篇 Markdown 题解合并成一篇比赛回顾文章。",
+      "The 2023 ICPC Asia Nanjing Regional Contest selected solutions.",
     tags: ["ICPC", "算法", "C++"],
     cover:
       "url('assets/icpc-burger.jpg') center center / cover no-repeat",
